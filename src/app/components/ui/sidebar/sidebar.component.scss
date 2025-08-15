@@ -5,6 +5,7 @@
   padding: 1rem;
   transition: width 0.3s ease;
   height: 100vh;
+  border-right: 1px solid $panel-menuitem-active-bg;
 
   p-button {
     display: block;

@@ -3,6 +3,7 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { WordsPageComponent } from './pages/words-page/words-page.component';
 import { WelcomePageComponent } from './pages/welcome-page/welcome-page.component';
 import { GrammerToLearnPageComponent } from './pages/grammer-to-learn-page/grammer-to-learn-page.component';
+import { DeckPageComponent } from './pages/deck-page/deck-page.component';
 
 export const routes: Routes = [
   {
@@ -15,12 +16,16 @@ export const routes: Routes = [
       {
         path: 'words-to-learn',
         component: WordsPageComponent,
-        data: { title: 'Words', description: 'There is a words to learn page description' }
+        data: { title: 'Words', description: 'There is a words to learn page description' },
       },
       {
         path: 'grammer-to-learn',
         component: GrammerToLearnPageComponent,
         data: { title: 'Grammer', description: 'There is a grammer to learn page description' }
+      },
+      {
+        path: 'deck/:id',
+        component: DeckPageComponent,
       }
     ]
   }
