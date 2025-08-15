@@ -1,0 +1,14 @@
+@use '../../../../styles.scss' as *;
+
+.deck-header {
+  display: flex;
+  justify-content: space-between;
+  border: $border;
+  border-radius: $border-radius;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+
+  .deck-navigate {
+    padding: 10px;
+  }
+}

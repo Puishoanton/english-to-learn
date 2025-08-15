@@ -23,6 +23,7 @@ $border-color: #dcdcdc;
 $panel-menuitem-active-bg: rgba(253, 253, 253, 0.1);
 
 $border-radius: 10px;
+$border: 2px solid $panel-menuitem-active-bg;
 
 :root {
   --primary-color: #{$primary-color};
