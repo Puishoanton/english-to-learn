@@ -1,0 +1,46 @@
+@use '../../../../styles.scss' as *;
+
+.sidebar {
+  width: 210px;
+  padding: 1rem;
+  transition: width 0.3s ease;
+  height: 100vh;
+
+  p-button {
+    display: block;
+    margin-bottom: 2rem;
+    padding-left: 10px;
+  }
+
+  ::ng-deep.p-tablist-tab-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: none;
+
+    ::ng-deep p-tab {
+      padding: 10px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      text-align: inherit;
+      gap: 8px;
+      border: none;
+    }
+
+    .active-route {
+      border-radius: $border-radius;
+      background-color: $panel-menuitem-active-bg;
+    }
+  }
+}
+
+.sidebar-closed {
+  width: 80px;
+
+  ::ng-deep p-tab {
+    span {
+      display: none;
+    }
+  }
+}

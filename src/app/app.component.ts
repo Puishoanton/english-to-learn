@@ -1,0 +1,40 @@
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { SeoService } from './services/seo.service';
+import { filter } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ISeoMetaTags } from './models/seo-meta-tags.interface';
+
+@Component({
+  selector: 'app-root',
+  imports: [RouterOutlet],
+  template: `<router-outlet></router-outlet>`
+  ,
+})
+export class AppComponent implements OnInit {
+  protected readonly title = signal('english-to-learn');
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private seoService = inject(SeoService);
+  private destroyRef = inject(DestroyRef);
+
+  public ngOnInit() {
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => {
+        let root = this.route.root;
+        while (root.firstChild) {
+          root = root.firstChild
+        }
+
+        const { title, description } = root.snapshot.data as ISeoMetaTags
+
+        if (title && description) {
+          this.seoService.updateMetaTags(title, description)
+        }
+      })
+  }
+}

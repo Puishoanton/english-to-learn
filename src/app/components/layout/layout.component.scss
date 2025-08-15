@@ -1,0 +1,20 @@
+@use '../../../styles.scss' as *;
+
+.header {
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  font-size: 25px;
+}
+
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-wrapper {
+  flex: 1;
+  padding: 0 2rem 2rem;
+  background-color: $background-color;
+  overflow-y: auto;
+}
