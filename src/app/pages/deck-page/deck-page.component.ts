@@ -5,11 +5,13 @@ import { ICard } from '../../models/words-to-learn';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardModule } from 'primeng/card';
 import { NgClass } from '@angular/common';
+import { StudyAddBtnComponent } from "../../components/ui/study-add-btn/study-add-btn.component";
 
 @Component({
   selector: 'app-deck-page',
-  imports: [CardModule, NgClass],
+  imports: [CardModule, NgClass, StudyAddBtnComponent],
   template: `
+  <app-study-add-btn></app-study-add-btn>
   <div class="card-grid">
       @for (card of cards; track card.id) {
         <p-card 
