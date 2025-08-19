@@ -10,7 +10,14 @@ import { AccordionModule } from 'primeng/accordion';
   exportAs: 'DeckWrapperComponent',
   template: `
     <div class="deck-wrapper">
-    @if(decks.length){}
+    @if(decks.length){
+      <p-accordion class="deck-accordion">
+      <p>Decks:</p>
+      @for (deck of decks; track deck.id){
+      <app-deck [deck]=" deck"></app-deck>
+      }
+    </p-accordion>
+    }
     @else {
     <div>
       <p>Create new deck</p>
@@ -18,12 +25,7 @@ import { AccordionModule } from 'primeng/accordion';
     </div>
     }
 
-    <p-accordion class="deck-accordion">
-      <p>Decks:</p>
-      @for (deck of decks; track deck.id){
-      <app-deck [deck]=" deck"></app-deck>
-      }
-    </p-accordion>
+    
     </div>
   `,
   styleUrl: './deck-wrapper.component.scss'

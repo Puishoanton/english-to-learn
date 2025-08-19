@@ -13,7 +13,7 @@ import { RouterLink } from '@angular/router';
   <p-accordion-panel [value]="deck.id">
   <div class="deck-header">
     <p-button class="deck-navigate" [label]="deck.name" [routerLink]="['/deck', deck.id]"></p-button>
-    <p-accordion-header>
+    <p-accordion-header class="deck-expand-btn">
       <ng-template #toggleicon let-active="active">
         @if (active) {
         <p>Collapse</p>

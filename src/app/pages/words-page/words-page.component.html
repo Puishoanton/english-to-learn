@@ -1,9 +1,0 @@
-<main class="main-wrapper">
-  <div class="search-add-new">
-    <input name="search" class="search" type="text" autocomplete="off" placeholder="Search..." [(ngModel)]="searchTerm"
-      (input)="searchChanged()" styleClass="w-36 focus:w-64 transition-all duration-300 px-2 py-1 border rounded" />
-
-    <p-button type="button" label="Add New" icon="pi pi-plus" class="add-button" (click)="addNew()"></p-button>
-  </div>
-  <app-deck-wrapper></app-deck-wrapper>
-</main>

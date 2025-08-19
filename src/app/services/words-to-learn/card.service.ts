@@ -31,10 +31,7 @@ export class CardService {
   private readonly httpClient = inject(HttpClient);
 
   public getCards(deckId: string): ICard[] {
-    if (deckId) {
-      return this.cards;
-    }
-    return [];
+    return this.cards;
   }
   public getCardById(id: string): ICard | undefined {
     return this.cards.find(card => card.id === id);
