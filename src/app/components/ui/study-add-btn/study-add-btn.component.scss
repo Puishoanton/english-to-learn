@@ -1,0 +1,36 @@
+@use '../../../../styles.scss' as *;
+
+.study-add-new {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .study-add-button {
+    padding: 0.5rem 1rem;
+
+    border: 1px solid $panel-menuitem-active-bg;
+    border-radius: $border-radius;
+
+    background-color: transperent;
+    color: $text-color;
+
+    transition: all 0.2s ease-in-out;
+
+    ::ng-deep button {
+      ::ng-deep span {
+        margin-right: 5px;
+      }
+    }
+
+    &:hover {
+      background-color: $panel-menuitem-active-bg;
+      border-color: black;
+    }
+
+    &:active {
+      transform: scale(0.97);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
