@@ -10,3 +10,10 @@ export interface ICard {
   // isFavorite?: boolean; 
   // tags?: string[]; 
 }
+export interface ICreateCard { 
+  word: string;
+  word_context: string
+  translation: string;
+  translation_context: string;
+  deckId: string;
+}

@@ -5,7 +5,7 @@
   padding: 1rem;
   transition: width 0.3s ease;
   height: 100vh;
-  border-right: 1px solid $panel-menuitem-active-bg;
+  border-right: 1px solid $hover-color;
 
   p-button {
     display: block;
@@ -31,7 +31,7 @@
 
     .active-route {
       border-radius: $border-radius;
-      background-color: $panel-menuitem-active-bg;
+      background-color: $hover-color;
     }
   }
 }

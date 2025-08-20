@@ -44,7 +44,15 @@
 }
 
 .translation {
-  background-color: $panel-menuitem-active-bg;
+  background-color: $hover-color;
+}
+
+.add-card {
+  transition: $transition-background;
+
+  &:hover {
+    background-color: $hover-color;
+  }
 }
 
 :host ::ng-deep .p-card {
