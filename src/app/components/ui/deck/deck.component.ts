@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
   template: `
   <p-accordion-panel [value]="deck.id">
   <div class="deck-header">
-    <p-button class="deck-navigate" [label]="deck.name" [routerLink]="['/deck', deck.id]"></p-button>
+    <p-button class="deck-navigate" [label]="deck.name" [routerLink]="['/words-to-learn/deck', deck.id]"></p-button>
     <p-accordion-header class="deck-expand-btn">
       <ng-template #toggleicon let-active="active">
         @if (active) {
@@ -33,9 +33,10 @@ import { RouterLink } from '@angular/router';
   styleUrl: './deck.component.scss'
 })
 export class DeckComponent {
+  private readonly cardService = inject(CardService);
+  
   @Input() public deck!: IDeck;
   public cards: ICard[] = []
-  private readonly cardService = inject(CardService);
 
   public ngOnInit(): void {
     this.cards = this.cardService.getCards(this.deck.id)
