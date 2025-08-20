@@ -31,7 +31,7 @@ export class CardService {
   private readonly httpClient = inject(HttpClient);
 
   public getCards(deckId: string): ICard[] {
-    return this.cards;
+    return this.cards.map(c => ({ ...c }));;
   }
   public getCardById(id: string): ICard | undefined {
     return this.cards.find(card => card.id === id);
