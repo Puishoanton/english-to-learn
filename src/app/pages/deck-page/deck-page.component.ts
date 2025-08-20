@@ -11,18 +11,18 @@ import { StudyAddBtnComponent } from "../../components/ui/study-add-btn/study-ad
   selector: 'app-deck-page',
   imports: [CardModule, NgClass, StudyAddBtnComponent],
   template: `
-  <app-study-add-btn></app-study-add-btn>
-  <div class="card-grid">
-      @for (card of cards; track card.id) {
-        <p-card 
-          class="flip-card"
-          [ngClass]="{ 'translation': card.flipped }"
-          (click)="toggleFlip(card)"
-        >
+   <app-study-add-btn [deckId]="deckId"></app-study-add-btn>
+   <div class="card-grid">
+    @for (card of cards; track card.id) {
+      <p-card 
+        class="flip-card"
+        [ngClass]="{ 'translation': card.flipped }"
+        (click)="toggleFlip(card)"
+      >
         @if(card.flipped) {
           <ng-container >
-            <h2>{{ card.translation }}</h2>
-            <p>{{ card.translation_context }}</p>
+             <h2>{{ card.translation }}</h2>
+             <p>{{ card.translation_context }}</p>
           </ng-container>
         }@else {
           <ng-container>
@@ -30,9 +30,9 @@ import { StudyAddBtnComponent } from "../../components/ui/study-add-btn/study-ad
             <p>{{ card.word_context }}</p>
           </ng-container>
         }
-        </p-card>
+      </p-card>
       }
-    </div>
+   </div>
   `,
   styleUrl: './deck-page.component.scss'
 })
@@ -48,10 +48,9 @@ export class DeckPageComponent implements OnInit {
     this.route.paramMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(params => {
-        this.deckId = params.get('deckId')!;
+        this.deckId = params.get('id') ?? '';
         this.cards = this.cardService.getCards(this.deckId);
       })
-
   }
 
   public toggleFlip(card: ICard & { flipped?: boolean }): void {
