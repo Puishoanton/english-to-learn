@@ -49,7 +49,7 @@
 
       &:hover {
         border-top-right-radius: $border-radius;
-        background-color: $panel-menuitem-active-bg;
+        background-color: $hover-color;
         border-color: black;
       }
     }

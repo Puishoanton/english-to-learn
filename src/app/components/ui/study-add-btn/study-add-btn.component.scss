@@ -9,7 +9,7 @@
   .study-add-button {
     padding: 0.5rem 1rem;
 
-    border: 1px solid $panel-menuitem-active-bg;
+    border: 1px solid $hover-color;
     border-radius: $border-radius;
 
     background-color: transperent;
@@ -24,7 +24,7 @@
     }
 
     &:hover {
-      background-color: $panel-menuitem-active-bg;
+      background-color: $hover-color;
       border-color: black;
     }
 
