@@ -29,8 +29,8 @@ import { EMPTY_CARD } from '../../../constants/initial-create-card.const';
           <input [ngClass]="{'invalid-input': submitted && !newCard.translation}" class="form-input" pInputText id="translation" autocomplete="off" [(ngModel)]="newCard.translation"/>
         </div>
         <div class="form-group">
-          <label [ngClass]="{'invalid-input': submitted && !newCard.translation_context}" class="form-label" for="translate_context">Translation context</label>
-          <input class="form-input" pInputText id="translation_context" autocomplete="off" [(ngModel)]="newCard.translation_context"/>
+          <label class="form-label" for="translate_context">Translation context</label>
+          <input [ngClass]="{'invalid-input': submitted && !newCard.translation_context}" class="form-input" pInputText id="translation_context" autocomplete="off" [(ngModel)]="newCard.translation_context"/>
         </div>
         <div class="form-actions">
           <p-button class="btn-cancel" label="Cancel" severity="secondary" (click)="onCancel()" />
