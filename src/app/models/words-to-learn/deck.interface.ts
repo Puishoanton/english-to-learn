@@ -12,3 +12,14 @@ export interface IDeck {
   // coverImageUrl?: string; 
   // lastAccessed?: Date; 
  }
+
+export interface ICreateDeck {
+  name: string;
+  description?: string;
+  // isPublic: boolean;
+  // ownerId: string;
+  // isFavorite: boolean;
+  // tags?: string[];
+  // coverImageUrl?: string; 
+  // lastAccessed?: Date; 
+ }
