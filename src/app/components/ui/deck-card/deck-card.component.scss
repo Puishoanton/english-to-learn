@@ -1,0 +1,49 @@
+@use '../../../../styles.scss' as *;
+
+.flip-card {
+  cursor: pointer;
+  perspective: 1000px;
+  min-height: 150px;
+  border: $border;
+  padding: 0 5px;
+
+  h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  .edit-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+
+    ::ng-deep button {
+      padding: 3px;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: $hover-color;
+        border-radius: 5px;
+      }
+    }
+
+  }
+}
+
+.flip-card:hover .edit-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.translation {
+  background-color: $hover-color;
+}
