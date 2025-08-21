@@ -17,3 +17,11 @@ export interface ICreateCard {
   translation_context: string;
   deckId: string;
 }
+
+export interface IEditCard { 
+  word?: string;
+  word_context?: string
+  translation?: string;
+  translation_context?: string;
+  deckId: string;
+}

@@ -1,0 +1,11 @@
+@use '../../../../styles.scss' as *;
+
+.modal-dialog {
+  ::ng-deep .p-dialog-content {
+    padding: 2rem 2.7rem;
+    border: $border;
+    border-radius: $border-radius;
+    color: $text-color;
+    background-color: $background-color;
+  }
+}

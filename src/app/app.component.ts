@@ -4,11 +4,15 @@ import { SeoService } from './services/seo.service';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ISeoMetaTags } from './models/seo-meta-tags.interface';
+import { GlobalModalWindowComponent } from "./components/ui/global-modal-window/global-modal-window.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  template: `<router-outlet></router-outlet>`
+  imports: [RouterOutlet, GlobalModalWindowComponent],
+  template: `
+    <router-outlet></router-outlet>
+    <app-global-modal-window></app-global-modal-window>
+  `
   ,
 })
 export class AppComponent implements OnInit {
