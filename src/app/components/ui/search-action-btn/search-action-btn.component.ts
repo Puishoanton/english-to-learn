@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { ModalWindowComponent } from "../modal-window/modal-window.component";
 import { ICreateDeck } from '../../../models/words-to-learn';
+import { IModalField } from '../../../models/modal-fields.interface';
 
 @Component({
   selector: 'app-search-action-btn',
@@ -43,7 +44,10 @@ export class SearchActionBtnComponent {
   @Input() public searchValue: string = '';
   @Input() public searchChanged: () => void = () => { };
 
-  public fields: string[] = ['name', 'description'];
+  public fields: IModalField[] = [
+    { label: 'Deck Name', value: 'name' },
+    { label: 'Description', value: 'description' }
+  ];
   public visible: boolean = false;
   public title: string = 'Create a new deck';
 

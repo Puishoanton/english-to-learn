@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { IModalField } from '../../../models/modal-fields.interface';
 
 @Component({
   selector: 'app-modal-window',
@@ -14,13 +15,13 @@ import { DialogModule } from 'primeng/dialog';
       <div class="modal-form">
         @for(field of fields; track field) {
           <div class="form-group">
-            <label class="form-label" [for]="field">{{field.charAt(0).toUpperCase()+field.slice(1, field.length)}}</label>
+            <label class="form-label" [for]="field">{{field.label}}</label>
             <input
-              [ngClass]="{'invalid-input': submitted && !formData[field]}"
+              [ngClass]="{'invalid-input': submitted && !formData[field.value]}"
               class="form-input"
               pInputText [id]="field"
               autocomplete="off"
-              [(ngModel)]="formData[field]"
+              [(ngModel)]="formData[field.value]"
             />
           </div>
         }
@@ -34,7 +35,7 @@ import { DialogModule } from 'primeng/dialog';
   styleUrl: './modal-window.component.scss'
 })
 export class ModalWindowComponent {
-  @Input({ required: true }) public fields!: string[];
+  @Input({ required: true }) public fields!: IModalField[];
   @Input({ required: true }) public visible!: boolean;
   @Input({ required: true }) public title!: string;
   @Output() public close = new EventEmitter<void>();
@@ -46,14 +47,14 @@ export class ModalWindowComponent {
   public ngOnChanges(): void {
     if (this.visible) {
       this.formData = {};
-      this.fields.forEach(field => this.formData[field] = '');
+      this.fields.forEach(field => this.formData[field.value] = '');
       this.submitted = false;
     }
   }
 
   public onSave(): void {
     this.submitted = true;
-    const isValid = this.fields.every(field => !!this.formData[field]);
+    const isValid = this.fields.every(field => !!this.formData[field.value]);
     if (isValid) {
       this.save.emit({ ...this.formData });
       this.resetForm();
@@ -68,6 +69,6 @@ export class ModalWindowComponent {
   private resetForm(): void {
     this.submitted = false;
     this.formData = {};
-    this.fields.forEach(field => this.formData[field] = '');
+    this.fields.forEach(field => this.formData[field.value] = '');
   }
 }
