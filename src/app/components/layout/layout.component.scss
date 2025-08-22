@@ -1,10 +1,16 @@
 @use '../../../styles.scss' as *;
 
 .header {
+  display: flex;
+  justify-content: center;
   width: 100%;
   text-align: center;
   padding: 10px 0;
-  font-size: 25px;
+  h1 {
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 25px;
+  }
 }
 
 .layout-container {

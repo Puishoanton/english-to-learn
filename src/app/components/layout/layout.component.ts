@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from "../ui/sidebar/sidebar.component";
 import { NavigationService } from '../../services/navigation.service';
 import { filter, Subscription } from 'rxjs';
@@ -7,12 +7,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-layout',
-  imports: [RouterOutlet, SidebarComponent],
+  imports: [RouterOutlet, SidebarComponent, RouterLink],
   template: `
       <div class="layout-container">
         <app-sidebar></app-sidebar>
         <div class="main-wrapper">
-          <h1 class="header" header="header">{{header}}</h1>
+          <div class="header">
+            <h1 routerLink="/">{{header}}</h1>
+          </div>
           <router-outlet></router-outlet>
         </div>
       </div>
