@@ -50,7 +50,8 @@ export class DeckCardComponent {
         title: 'Edit card',
         fields: this.getEditCardModalWindowFields(),
         handleSave: (formData: Record<string, string>) => this.handleSave(formData),
-        handleCancel: () => this.handleCancel()
+        handleCancel: () => this.handleCancel(),
+        handleDelete: () => this.handleDelete(),
       })
   }
 
@@ -60,6 +61,10 @@ export class DeckCardComponent {
   }
 
   private handleCancel() {
+    this.modalService.close()
+  }
+
+  private handleDelete() {
     this.modalService.close()
   }
 

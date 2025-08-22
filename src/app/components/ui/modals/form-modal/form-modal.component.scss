@@ -1,11 +1,26 @@
 @use '../../../../../styles.scss' as *;
 
 
-.form-modal-title {
-  display: block;
-  font-size: 1.25rem;
-  font-weight: 600;
+.form-modal-title-cancel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1.5rem;
+
+  .form-modal-title {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .btn-cancel {
+    padding: 0.313rem;
+    border-radius: $border-radius;
+
+    &:hover {
+      background-color: $hover-color;
+    }
+  }
 }
 
 .form-modal-container {
@@ -64,12 +79,17 @@
     }
   }
 
-  .btn-save {
+  .action-btn {
     padding: 0.313rem 0.625rem;
     border-radius: $border-radius;
 
-    &:hover {
-      background-color: $success-color;
-    }
+  }
+
+  .btn-save:hover {
+    background-color: $success-color;
+  }
+
+  .btn-delete:hover {
+    background-color: $danger-color;
   }
 }

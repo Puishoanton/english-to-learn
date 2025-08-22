@@ -10,7 +10,10 @@ import { IModalField } from '../../../../models/modal-fields.interface';
   imports: [ButtonModule, DialogModule, FormsModule, NgClass],
   exportAs: 'formModal',
   template: `
-    <span class="form-modal-title">{{title}}</span>
+    <div class="form-modal-title-cancel">
+      <span class="form-modal-title">{{title}}</span>
+      <p-button class="btn-cancel pi pi-times"  severity="secondary" (click)="onCancel()" />
+   </div>
     <div class="form-modal-container">
       @for(field of fields; track field.value) {
       <div class="form-group">
@@ -25,8 +28,10 @@ import { IModalField } from '../../../../models/modal-fields.interface';
       </div>
       }
       <div class="form-actions">
-        <p-button class="btn-cancel" label="Cancel" severity="secondary" (click)="onCancel()" />
-        <p-button class="btn-save" label="Save" (click)="onSave()" />
+        @if(handleDelete) {
+          <p-button class="btn-delete action-btn" label="Delete a card" (click)="onDelete()" />
+        }
+        <p-button class="btn-save action-btn" label="Save" (click)="onSave()" />
       </div>
     </div>
   `,
@@ -34,6 +39,7 @@ import { IModalField } from '../../../../models/modal-fields.interface';
 })
 export class FormModalComponent {
   @Input({ required: true }) public handleSave!: (formData: Record<string, string>) => void;
+  @Input({ required: false }) public handleDelete?: () => void;
   @Input({ required: true }) public handleCancel!: () => void;
   @Input({ required: true }) public fields!: IModalField[];
   @Input({ required: true }) public title!: string;
@@ -55,6 +61,12 @@ export class FormModalComponent {
 
   public onCancel() {
     this.handleCancel()
+  }
+
+  public onDelete() {
+    if (this.handleDelete) {
+      this.handleDelete()
+    }
   }
 
   private initFormData(): void {
