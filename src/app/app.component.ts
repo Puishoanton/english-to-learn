@@ -4,7 +4,7 @@ import { SeoService } from './services/seo.service';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ISeoMetaTags } from './models/seo-meta-tags.interface';
-import { GlobalModalWindowComponent } from "./components/ui/global-modal-window/global-modal-window.component";
+import { GlobalModalWindowComponent } from './components/ui/modals/global-modal-window/global-modal-window.component';
 
 @Component({
   selector: 'app-root',

@@ -5,7 +5,7 @@ import { ICard } from '../../../models/words-to-learn';
 import { Button } from "primeng/button";
 import { IModalField } from '../../../models/modal-fields.interface';
 import { GlobalModalWindowService } from '../../../services/global-modal-window.service';
-import { EditCardModalComponent } from '../edit-card-modal/edit-card-modal.component';
+import { FormModalComponent } from '../modals/form-modal/form-modal.component';
 
 @Component({
   selector: 'app-deck-card',
@@ -45,11 +45,22 @@ export class DeckCardComponent {
   public openEditCardModal(): void {
     if (!this.card) return
     this.modalService.open(
-      EditCardModalComponent,
+      FormModalComponent,
       {
         title: 'Edit card',
         fields: this.getEditCardModalWindowFields(),
+        handleSave: (formData: Record<string, string>) => this.handleSave(formData),
+        handleCancel: () => this.handleCancel()
       })
+  }
+
+  private handleSave(formData: Record<string, string>) {
+    console.log(formData);
+    this.modalService.close()
+  }
+
+  private handleCancel() {
+    this.modalService.close()
   }
 
   private getEditCardModalWindowFields(): IModalField[] {

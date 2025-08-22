@@ -1,7 +1,8 @@
 import { Component, DestroyRef, inject, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
-import { GlobalModalWindowService } from '../../../services/global-modal-window.service';
+import { GlobalModalWindowService } from '../../../../services/global-modal-window.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 
 @Component({
   selector: 'app-global-modal-window',
