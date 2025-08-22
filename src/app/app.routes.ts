@@ -27,7 +27,7 @@ export const routes: Routes = [
       {
         path: 'words-to-learn/deck/:id/study',
         component: StudyWordsPageComponent,
-        data: { title: 'Deck', description: 'There is a deck page description' },
+        data: { title: 'Study', description: 'There is a study page description' },
       },
       {
         path: 'grammer-to-learn',
