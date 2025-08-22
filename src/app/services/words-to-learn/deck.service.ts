@@ -19,7 +19,8 @@ export class DeckService {
   ]
   private readonly httpClient = inject(HttpClient);
 
-  public getDecks() {
+  public getDecks(search?: string) {
+    console.log(search);
     return this.decks;
   }
   public getDeckById(id: string): IDeck | undefined {

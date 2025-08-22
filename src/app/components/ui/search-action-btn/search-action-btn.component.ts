@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { IModalField } from '../../../models/modal-props.interface';
 import { GlobalModalWindowService } from '../../../services/global-modal-window.service';
@@ -8,10 +8,12 @@ import { DeckService } from '../../../services/words-to-learn/deck.service';
 import { ICreateDeck } from '../../../models/words-to-learn';
 import { Toast } from 'primeng/toast';
 import { ShowToastService } from '../../../services/show-toast.service';
+import { debounceTime } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-search-action-btn',
-  imports: [FormsModule, ButtonModule, Toast],
+  imports: [ReactiveFormsModule, ButtonModule, Toast],
   exportAs: 'searchActionBtn',
   template: `
   <div class="search-add-new">
@@ -21,8 +23,7 @@ import { ShowToastService } from '../../../services/show-toast.service';
       type="text"
       autocomplete="off"
       placeholder="Search..."
-      [(ngModel)]="searchValue"
-      (input)="searchChanged()"
+      [formControl]="searchControl"
     />
     <p-button 
       type="button" 
@@ -37,14 +38,27 @@ import { ShowToastService } from '../../../services/show-toast.service';
   `,
   styleUrl: './search-action-btn.component.scss'
 })
-export class SearchActionBtnComponent {
+export class SearchActionBtnComponent implements OnInit {
   private readonly modalService = inject(GlobalModalWindowService<ICreateDeck>)
   private readonly deckService = inject(DeckService)
   private readonly showToastService = inject(ShowToastService)
+  private readonly destroyRef = inject(DestroyRef);
+  public searchControl = new FormControl('');
   public searchValue: string = '';
 
-  public searchChanged() {
-    console.log('Search:', this.searchValue);
+  public ngOnInit(): void {
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(700),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(value => {
+        this.performSearch(value ?? '');
+      });
+  }
+
+  private performSearch(search: string) {
+    this.deckService.getDecks(search)
   }
 
   public addNew() {
