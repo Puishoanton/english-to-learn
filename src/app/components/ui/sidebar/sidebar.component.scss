@@ -22,11 +22,18 @@
     ::ng-deep p-tab {
       padding: 10px;
       height: 40px;
+      width: min-content;
       display: flex;
       align-items: center;
       text-align: inherit;
       gap: 8px;
       border: none;
+      border-radius: $border-radius;
+      transition: $transition-background;
+
+      &:hover {
+        background-color: $hover-color;
+      }
     }
 
     .active-route {
@@ -37,7 +44,7 @@
 }
 
 .sidebar-closed {
-  width: 80px;
+  width: 70px;
 
   ::ng-deep p-tab {
     span {
