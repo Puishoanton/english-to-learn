@@ -10,18 +10,9 @@ import { SearchActionBtnComponent } from '../../components/ui/search-action-btn/
   selector: 'app-words-page',
   imports: [MenuModule, FormsModule, CommonModule, ButtonModule, DeckWrapperComponent, SearchActionBtnComponent],
   template: `
-    <app-search-action-btn [searchValue]="searchValue" (searchChanged)="searchChanged()" (addNew)="addNew()"></app-search-action-btn>
+    <app-search-action-btn></app-search-action-btn>
     <app-deck-wrapper></app-deck-wrapper>
   `,
 })
 export class WordsPageComponent {
-  public searchValue: string = '';
-
-  public searchChanged() {
-    console.log('Search:', this.searchValue);
-  }
-
-  public addNew() {
-    console.log('Add new clicked!');
-  }
 }

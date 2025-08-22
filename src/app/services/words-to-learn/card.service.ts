@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ICard } from '../../models/words-to-learn';
+import { ICard, ICreateCard, IEditCard } from '../../models/words-to-learn';
 
 @Injectable({
   providedIn: 'root'
@@ -36,10 +36,16 @@ export class CardService {
   public getCardById(id: string): ICard | undefined {
     return this.cards.find(card => card.id === id);
   }
-  public addCard(card: ICard) {
-    this.cards.push(card);
+  public createCard(createCardDto: ICreateCard) {
+    console.log(createCardDto);
+    return { status: 200, message: 'Created' }
   }
-  public removeCard(id: string) {
-    this.cards = this.cards.filter(card => card.id !== id);
+  public editCard(cardId: string, editCardDto: IEditCard) {
+    console.log(editCardDto);
+    return { status: 200, message: 'Edited' }
+  }
+  public deleteCard(cardId: string) {
+    console.log(cardId);
+    return { status: 200, message: 'Deleted' }
   }
 }
