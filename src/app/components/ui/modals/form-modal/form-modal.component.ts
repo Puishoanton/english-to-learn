@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { IModalField } from '../../../../models/modal-fields.interface';
+import { IModalField } from '../../../../models/modal-props.interface';
 
 @Component({
   selector: 'app-form-modal',

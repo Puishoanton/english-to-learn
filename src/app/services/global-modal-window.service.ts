@@ -1,10 +1,11 @@
-import { Injectable, Type } from '@angular/core';
+import { Component, Injectable, Type } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { IModalProps } from '../models/modal-props.interface';
 
 interface IModalState {
   visible: boolean,
   component?: Type<any>
-  data?: any
+  props?: IModalProps
 }
 
 @Injectable({
@@ -14,8 +15,8 @@ export class GlobalModalWindowService {
   private modalState = new BehaviorSubject<IModalState>({ visible: false })
   public modalState$ = this.modalState.asObservable()
 
-  public open(component: Type<any>, data?: any) {
-    this.modalState.next({ visible: true, component, data })
+  public open<T>(component: Type<any>, props?: IModalProps) {
+    this.modalState.next({ visible: true, component, props })
   }
 
   public close() {
