@@ -39,7 +39,7 @@
     }
 
     .know-btn {
-      border-bottom-right-radius: $border-radius;
+      border-bottom-right-radius: 6.3px;
 
       &:hover {
         background-color: $success-color;
@@ -47,7 +47,7 @@
     }
 
     .again-btn {
-      border-bottom-left-radius: $border-radius;
+      border-bottom-left-radius: 6.3px;
 
       &:hover {
         background-color: $danger-color;
