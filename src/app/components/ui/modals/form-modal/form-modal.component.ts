@@ -60,7 +60,7 @@ export class FormModalComponent {
   private initFormData(): void {
     this.formData = {};
     if (this.fields) {
-      this.fields.forEach(field => this.formData[field.value] = '');
+      this.fields.forEach(field => this.formData[field.value] = field.initialValue ?? '');
     }
     this.submitted = false;
   }
