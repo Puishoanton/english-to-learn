@@ -3,7 +3,7 @@ import { Component, Input, inject } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ICard } from '../../../models/words-to-learn';
 import { Button } from "primeng/button";
-import { IModalField } from '../../../models/modal-fields.interface';
+import { IModalField } from '../../../models/modal-props.interface';
 import { GlobalModalWindowService } from '../../../services/global-modal-window.service';
 import { FormModalComponent } from '../modals/form-modal/form-modal.component';
 

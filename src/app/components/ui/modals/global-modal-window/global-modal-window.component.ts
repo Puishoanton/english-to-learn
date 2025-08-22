@@ -31,8 +31,8 @@ export class GlobalModalWindowComponent implements OnInit {
           this.container.clear()
           const componentRef = this.container.createComponent(state.component);
 
-          if (state.data) {
-            Object.assign(componentRef.instance, state.data);
+          if (state.props) {
+            Object.assign(componentRef.instance, state.props);
           }
         }
       })

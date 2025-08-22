@@ -1,7 +1,7 @@
 import { Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { IModalField } from '../../../models/modal-fields.interface';
+import { IModalField } from '../../../models/modal-props.interface';
 import { GlobalModalWindowService } from '../../../services/global-modal-window.service';
 import { FormModalComponent } from '../modals/form-modal/form-modal.component';
 

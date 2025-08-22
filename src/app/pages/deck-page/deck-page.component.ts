@@ -7,7 +7,7 @@ import { CardModule } from 'primeng/card';
 import { DeckPageActionBtn } from "../../components/ui/deck-page-action-btn/deck-page-action-btn.component";
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
-import { IModalField } from '../../models/modal-fields.interface';
+import { IModalField } from '../../models/modal-props.interface';
 import { DeckCardComponent } from '../../components/ui/deck-card/deck-card.component';
 import { GlobalModalWindowService } from '../../services/global-modal-window.service';
 import { FormModalComponent } from '../../components/ui/modals/form-modal/form-modal.component';
