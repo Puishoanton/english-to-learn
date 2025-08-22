@@ -9,7 +9,14 @@
   border-bottom-right-radius: 0px;
 
   .deck-navigate {
+    cursor: pointer;
     padding: 10px;
+    transition: $transition-background;
+    border-top-left-radius: 8.4px;
+
+    &:hover {
+      background-color: $hover-color;
+    }
   }
 
   .deck-expand-btn {
