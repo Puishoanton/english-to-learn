@@ -21,7 +21,9 @@ import { FormModalComponent } from '../../components/ui/modals/form-modal/form-m
     @for (card of cards; track card.id) {
       <app-deck-card [card]="card"></app-deck-card>
     }
-    <p-card class="add-card" (click)="openEditCardModal()">create new card</p-card>
+    <p-card class="add-card" (click)="openEditCardModal()">
+      <i class="pi pi-plus"></i>
+    </p-card>
    </div>
   `,
   styleUrl: './deck-page.component.scss'
