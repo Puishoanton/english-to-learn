@@ -5,14 +5,14 @@
   justify-content: space-between;
   border: $border;
   border-radius: $border-radius;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0rem;
+  border-bottom-right-radius: 0rem;
 
   .deck-navigate {
     cursor: pointer;
-    padding: 10px;
-    transition: $transition-background;
-    border-top-left-radius: 8.4px;
+    padding: 0.625rem;
+    transition: $transition-btn;
+    border-top-left-radius: 0.525rem;
 
     &:hover {
       background-color: $hover-color;
@@ -20,7 +20,8 @@
   }
 
   .deck-expand-btn {
-    padding-left: 10px;
-    border-top-right-radius: 8.4px !important;
+    padding-left: 0.625rem;
+    border-top-right-radius: 0.525rem !important;
+    transition: $transition-btn;
   }
 }

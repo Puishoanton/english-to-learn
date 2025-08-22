@@ -28,10 +28,10 @@
   .form-input {
     width: 100%;
     padding: 0.5rem 1rem;
-    max-width: 300px;
+    max-width: 18.75rem;
 
     border-radius: $border-radius;
-    border: 1px solid $hover-color;
+    border: $border-thin;
 
     color: $text-color;
     background-color: $transperent-grey-color;
@@ -56,7 +56,7 @@
   margin-top: 1.5rem;
 
   .btn-cancel {
-    padding: 5px 10px;
+    padding: 0.313rem 0.625rem;
     border-radius: $border-radius;
 
     &:hover {
@@ -65,7 +65,7 @@
   }
 
   .btn-save {
-    padding: 5px 10px;
+    padding: 0.313rem 0.625rem;
     border-radius: $border-radius;
 
     &:hover {

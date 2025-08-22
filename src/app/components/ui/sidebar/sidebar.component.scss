@@ -1,32 +1,32 @@
 @use '../../../../styles.scss' as *;
 
 .sidebar {
-  width: 210px;
+  width: 13.125rem;
   padding: 1rem;
   transition: width 0.3s ease;
   height: 100vh;
-  border-right: 1px solid $hover-color;
+  border-right: $border-thin;
 
   p-button {
     display: block;
     margin-bottom: 2rem;
-    padding-left: 10px;
+    padding-left: 0.625rem;
   }
 
   ::ng-deep.p-tablist-tab-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.625rem;
     border: none;
 
     ::ng-deep p-tab {
-      padding: 10px;
-      height: 40px;
+      padding: 0.625rem;
+      height: 2.5rem;
       width: min-content;
       display: flex;
       align-items: center;
       text-align: inherit;
-      gap: 8px;
+      gap: 0.5rem;
       border: none;
       border-radius: $border-radius;
       transition: $transition-background;
@@ -44,7 +44,7 @@
 }
 
 .sidebar-closed {
-  width: 70px;
+  width: 4.375rem;
 
   ::ng-deep p-tab {
     span {

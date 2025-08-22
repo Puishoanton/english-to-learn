@@ -2,10 +2,10 @@
 
 .flip-card {
   cursor: pointer;
-  perspective: 1000px;
-  min-height: 150px;
+  perspective: 62.5rem;
+  min-height: 9.375rem;
   border: $border;
-  padding: 0 5px;
+  padding: 0 0.313rem;
   transition: $transition-background;
 
   h2 {
@@ -15,25 +15,25 @@
 
   p {
     font-size: 0.9rem;
-    color: #555;
+    color: $text-color-light;
   }
 
   .edit-btn {
     position: absolute;
-    top: 10px;
-    right: 15px;
+    top: 0.625rem;
+    right: 0.938rem;
 
     opacity: 0;
     transition: opacity 0.2s;
     pointer-events: none;
 
     ::ng-deep button {
-      padding: 3px;
+      padding: 0.188rem;
       transition: background-color 0.2s;
 
       &:hover {
         background-color: $hover-color;
-        border-radius: 5px;
+        border-radius: 0.25rem;
       }
     }
 

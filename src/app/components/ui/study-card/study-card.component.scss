@@ -2,9 +2,9 @@
 
 .study-card {
   width: 100%;
-  height: 300px;
+  height: 18.75rem;
   margin: auto;
-  padding-top: 10px;
+  padding-top: 0.625rem;
 
   text-align: center;
 
@@ -30,7 +30,7 @@
     .next-btn {
       width: 50%;
       cursor: pointer;
-      padding: 10px 0;
+      padding: 0.625rem 0;
       transition: $transition-background;
 
       ::ng-deep .p-button-label {
@@ -39,7 +39,7 @@
     }
 
     .know-btn {
-      border-bottom-right-radius: 6.3px;
+      border-bottom-right-radius: 0.394rem;
 
       &:hover {
         background-color: $success-color;
@@ -47,7 +47,7 @@
     }
 
     .again-btn {
-      border-bottom-left-radius: 6.3px;
+      border-bottom-left-radius: 0.394rem;
 
       &:hover {
         background-color: $danger-color;

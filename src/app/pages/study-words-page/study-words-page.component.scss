@@ -4,8 +4,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
-  font-size: 40px;
+  margin-top: 3.125rem;
+  font-size: 2.5rem;
 }
 
 .action-btn {
@@ -14,19 +14,19 @@
   align-items: center;
   padding: 0.5rem 1rem;
 
-  border: 1px solid $hover-color;
+  border: $border-thin;
   border-radius: $border-radius;
 
   background-color: transperent;
   color: $text-color;
 
-  transition: all 0.2s ease-in-out;
+  transition: $transition-btn;
 
   ::ng-deep button {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 5px;
+    gap: 0.313rem;
   }
 
   &:hover {
