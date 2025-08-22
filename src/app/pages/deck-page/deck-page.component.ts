@@ -1,10 +1,10 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CardService } from '../../services/words-to-learn/card.service';
-import { ICard, ICreateCard } from '../../models/words-to-learn';
+import { ICard } from '../../models/words-to-learn';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardModule } from 'primeng/card';
-import { StudyAddBtnComponent } from "../../components/ui/study-add-btn/study-add-btn.component";
+import { DeckPageActionBtn } from "../../components/ui/deck-page-action-btn/deck-page-action-btn.component";
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { IModalField } from '../../models/modal-fields.interface';
@@ -14,9 +14,9 @@ import { FormModalComponent } from '../../components/ui/modals/form-modal/form-m
 
 @Component({
   selector: 'app-deck-page',
-  imports: [CardModule, StudyAddBtnComponent, ButtonModule, DialogModule, DeckCardComponent],
+  imports: [CardModule, DeckPageActionBtn, ButtonModule, DialogModule, DeckCardComponent, DeckPageActionBtn],
   template: `
-   <app-study-add-btn [deckId]="deckId"></app-study-add-btn>
+   <app-deck-page-action-btn [deckId]="deckId"></app-deck-page-action-btn>
    <div class="card-grid">
     @for (card of cards; track card.id) {
       <app-deck-card [card]="card"></app-deck-card>

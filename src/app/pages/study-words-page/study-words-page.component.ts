@@ -16,7 +16,7 @@ import { Location } from '@angular/common';
   }@else {
     <div class="no-cards">
       <p >All cards studied!</p>
-      <p-button label="Go back" (click)="goBack()"></p-button>
+      <p-button label="Go back" icon="pi pi-chevron-left" class="action-btn" (click)="goBack()"></p-button>
     </div>
   }
 
