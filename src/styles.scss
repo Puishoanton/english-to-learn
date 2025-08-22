@@ -18,6 +18,7 @@ $primary-color: #4a90e2;
 $secondary-color: #50c8b480;
 $background-color: #000000;
 $text-color: #616161;
+$text-color-light: #555;
 $error-color: #e74c3c;
 $border-color: #dcdcdc;
 $transperent-grey-color: rgba(253, 253, 253, 0.1);
@@ -25,9 +26,11 @@ $hover-color: rgba(253, 253, 253, 0.15);
 $danger-color: rgba(231, 77, 60, 0.2);
 $success-color: rgba(46, 204, 112, 0.2);
 
-$border-radius: 10px;
-$border: 2px solid $hover-color;
+$border-radius: 0.625rem;
+$border: 0.125rem solid $hover-color;
+$border-thin: 0.063rem solid $hover-color;
 $transition-background: background-color 0.6s ease;
+$transition-btn: all 0.2s ease-in-out;
 
 :root {
   --primary-color: #{$primary-color};
@@ -69,8 +72,8 @@ textarea {
 }
 
 .p-card {
-  border-radius: 8px;
-  border: 1px solid $border-color;
+  border-radius: 0.5rem;
+  border: 0.063rem solid $border-color;
 }
 
 .p-button {

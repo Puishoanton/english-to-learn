@@ -12,29 +12,24 @@
     align-items: center;
     padding: 0.5rem 1rem;
 
-    border: 1px solid $hover-color;
+    border: $border-thin;
     border-radius: $border-radius;
 
     background-color: transperent;
     color: $text-color;
 
-    transition: all 0.2s ease-in-out;
+    transition: $transition-btn;
 
     ::ng-deep button {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 0.313rem;
     }
 
     &:hover {
       background-color: $hover-color;
       border-color: black;
-    }
-
-    &:active {
-      transform: scale(0.97);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
   }
 }
