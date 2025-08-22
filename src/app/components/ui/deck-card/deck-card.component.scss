@@ -6,6 +6,7 @@
   min-height: 150px;
   border: $border;
   padding: 0 5px;
+  transition: $transition-background;
 
   h2 {
     font-size: 1.1rem;
@@ -36,6 +37,10 @@
       }
     }
 
+  }
+
+  &:hover {
+    background-color: $hover-color;
   }
 }
 
