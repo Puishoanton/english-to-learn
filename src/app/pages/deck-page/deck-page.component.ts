@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CardService } from '../../services/words-to-learn/card.service';
-import { ICard } from '../../models/words-to-learn';
+import { ICard, ICreateCard } from '../../models/words-to-learn';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardModule } from 'primeng/card';
 import { DeckPageActionBtn } from "../../components/ui/deck-page-action-btn/deck-page-action-btn.component";
@@ -11,6 +11,7 @@ import { IModalField } from '../../models/modal-props.interface';
 import { DeckCardComponent } from '../../components/ui/deck-card/deck-card.component';
 import { GlobalModalWindowService } from '../../services/global-modal-window.service';
 import { FormModalComponent } from '../../components/ui/modals/form-modal/form-modal.component';
+import { ShowToastService } from '../../services/show-toast.service';
 
 @Component({
   selector: 'app-deck-page',
@@ -21,7 +22,7 @@ import { FormModalComponent } from '../../components/ui/modals/form-modal/form-m
     @for (card of cards; track card.id) {
       <app-deck-card [card]="card"></app-deck-card>
     }
-    <p-card class="add-card" (click)="openEditCardModal()">
+    <p-card class="add-card" (click)="openCreateCardModal()">
       <i class="pi pi-plus"></i>
     </p-card>
    </div>
@@ -32,7 +33,9 @@ export class DeckPageComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly route = inject(ActivatedRoute);
   private readonly cardService = inject(CardService);
-  private readonly modalService = inject(GlobalModalWindowService)
+  private readonly modalService = inject(GlobalModalWindowService<ICreateCard>)
+  private readonly showToastService = inject(ShowToastService)
+
 
   public deckId!: string;
   public cards: (ICard & { flipped?: boolean })[] = [];
@@ -46,21 +49,25 @@ export class DeckPageComponent implements OnInit {
       })
   }
 
-  public openEditCardModal(): void {
+  public openCreateCardModal(): void {
     this.modalService.open(
       FormModalComponent,
       {
         title: 'Create a new card',
         fields: this.getCreateCardModalWindowFields(),
-        handleSave: (formData: Record<string, string>) => this.handleSave(formData),
+        handleSave: (createCardDto) => this.handleSave(createCardDto),
         handleCancel: () => this.handleCancel()
       })
   }
 
-
-  private handleSave(formData: Record<string, string>) {
-    console.log(formData);
-    this.modalService.close()
+  private handleSave(createCardDto: ICreateCard) {
+    const { status, message } = this.cardService.createCard(createCardDto)
+    if (status === 200) {
+      this.modalService.close()
+      this.showToastService.showToast('success', message);
+      return
+    }
+    this.showToastService.showToast('error', message);
   }
 
   private handleCancel() {

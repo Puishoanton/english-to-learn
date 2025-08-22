@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ICard, IDeck } from '../../models/words-to-learn';
+import { ICard, ICreateDeck, IDeck } from '../../models/words-to-learn';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -25,8 +25,9 @@ export class DeckService {
   public getDeckById(id: string): IDeck | undefined {
     return this.decks.find(deck => deck.id === id);
   }
-  public addDeck(deck: IDeck) {
-    this.decks.push(deck);
+  public createDeck(createDeckDto: ICreateDeck) {
+    console.log(createDeckDto);
+    return { status: 200, message: 'Created' }
   }
   public removeDeck(id: string) {
     this.decks = this.decks.filter(deck => deck.id !== id);

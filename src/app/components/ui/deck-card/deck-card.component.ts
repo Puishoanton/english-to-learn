@@ -1,15 +1,18 @@
 import { NgClass } from '@angular/common';
 import { Component, Input, inject } from '@angular/core';
 import { CardModule } from 'primeng/card';
-import { ICard } from '../../../models/words-to-learn';
+import { ICard, IEditCard } from '../../../models/words-to-learn';
 import { Button } from "primeng/button";
 import { IModalField } from '../../../models/modal-props.interface';
 import { GlobalModalWindowService } from '../../../services/global-modal-window.service';
 import { FormModalComponent } from '../modals/form-modal/form-modal.component';
+import { ShowToastService } from '../../../services/show-toast.service';
+import { CardService } from '../../../services/words-to-learn/card.service';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-deck-card',
-  imports: [CardModule, NgClass, Button],
+  imports: [CardModule, NgClass, Button, Toast],
   exportAs: 'deckCard',
   template: `
     <p-card 
@@ -30,12 +33,16 @@ import { FormModalComponent } from '../modals/form-modal/form-modal.component';
      }
      <p-button icon="pi pi-pencil" class="edit-btn" (onClick)="openEditCardModal(); $event.stopPropagation()" />
     </p-card>
+    <p-toast/>
 
   `,
   styleUrl: './deck-card.component.scss'
 })
 export class DeckCardComponent {
-  private readonly modalService = inject(GlobalModalWindowService)
+  private readonly modalService = inject(GlobalModalWindowService<IEditCard>)
+  private readonly cardService = inject(CardService)
+  private readonly showToastService = inject(ShowToastService)
+
   @Input({ required: true }) public card!: ICard & { flipped?: boolean };
 
   public toggleFlip(card: ICard & { flipped?: boolean }): void {
@@ -49,15 +56,20 @@ export class DeckCardComponent {
       {
         title: 'Edit card',
         fields: this.getEditCardModalWindowFields(),
-        handleSave: (formData: Record<string, string>) => this.handleSave(formData),
+        handleSave: (editCardDto) => this.handleSave(editCardDto),
         handleCancel: () => this.handleCancel(),
         handleDelete: () => this.handleDelete(),
       })
   }
 
-  private handleSave(formData: Record<string, string>) {
-    console.log(formData);
-    this.modalService.close()
+  private handleSave(editCardDto: IEditCard) {
+    const { status, message } = this.cardService.editCard(this.card.id, editCardDto)
+    if (status === 200) {
+      this.modalService.close()
+      this.showToastService.showToast('success', message);
+      return
+    }
+    this.showToastService.showToast('error', message);
   }
 
   private handleCancel() {
@@ -65,7 +77,13 @@ export class DeckCardComponent {
   }
 
   private handleDelete() {
-    this.modalService.close()
+    const { status, message } = this.cardService.deleteCard(this.card.id)
+    if (status === 200) {
+      this.modalService.close()
+      this.showToastService.showToast('success', message);
+      return
+    }
+    this.showToastService.showToast('error', message);
   }
 
   private getEditCardModalWindowFields(): IModalField[] {

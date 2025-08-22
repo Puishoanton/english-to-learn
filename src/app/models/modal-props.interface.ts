@@ -4,10 +4,10 @@ export interface IModalField {
   initialValue?: string
 }
 
-export interface IModalProps {
+export interface IModalProps<T> {
   title: string,
   fields: IModalField[],
-  handleSave: (formData: Record<string, string>) => void,
+  handleSave: (formData: T) => void,
   handleCancel: () => void,
   handleDelete?: () => void
 }
