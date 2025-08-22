@@ -35,6 +35,11 @@
   &:hover {
     background-color: $hover-color;
   }
+
+  .pi {
+    color: $text-color;
+    scale: 1.3;
+  }
 }
 
 :host ::ng-deep .p-card {
