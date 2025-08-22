@@ -1,23 +1,14 @@
-@use '../../../../styles.scss' as *;
+@use '../../../../../styles.scss' as *;
 
-.create-card-dialog {
-  ::ng-deep .p-dialog-content {
-    padding: 2rem 2.7rem;
-    border: $border;
-    border-radius: $border-radius;
-    color: $text-color;
-    background-color: $background-color;
-  }
-}
 
-.modal-title {
+.form-modal-title {
   display: block;
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
 }
 
-.create-card-form {
+.form-modal-container {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;

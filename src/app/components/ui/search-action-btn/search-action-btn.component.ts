@@ -1,13 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { ModalWindowComponent } from "../modal-window/modal-window.component";
-import { ICreateDeck } from '../../../models/words-to-learn';
 import { IModalField } from '../../../models/modal-fields.interface';
+import { GlobalModalWindowService } from '../../../services/global-modal-window.service';
+import { FormModalComponent } from '../modals/form-modal/form-modal.component';
 
 @Component({
   selector: 'app-search-action-btn',
-  imports: [FormsModule, ButtonModule, ModalWindowComponent],
+  imports: [FormsModule, ButtonModule],
   exportAs: 'searchActionBtn',
   template: `
   <div class="search-add-new">
@@ -25,42 +25,42 @@ import { IModalField } from '../../../models/modal-fields.interface';
       label="Add New" 
       icon="pi pi-plus" 
       class="add-button" 
-      (click)="openCreateCardModal()"
+      (click)="openCreateDeckModal()"
     >
     </p-button>
   </div>
-  <app-modal-window 
-    [fields]="fields" 
-    [title]="title" 
-    [visible]="visible" 
-    (close)="closeCreateDeckModal()" 
-    (save)="createDeckModal($event)"
-  >
-  </app-modal-window>
   `,
   styleUrl: './search-action-btn.component.scss'
 })
 export class SearchActionBtnComponent {
+  private readonly modalService = inject(GlobalModalWindowService)
   @Input() public searchValue: string = '';
   @Input() public searchChanged: () => void = () => { };
 
-  public fields: IModalField[] = [
-    { label: 'Deck Name', value: 'name' },
-    { label: 'Description', value: 'description' }
-  ];
-  public visible: boolean = false;
-  public title: string = 'Create a new deck';
-
-  public openCreateCardModal(): void {
-    this.visible = true;
+  public openCreateDeckModal(): void {
+    this.modalService.open(
+      FormModalComponent,
+      {
+        title: 'Create a new deck',
+        fields: this.getEditCardModalWindowFields(),
+        handleSave: (formData: Record<string, string>) => this.handleSave(formData),
+        handleCancel: () => this.handleCancel()
+      })
   }
 
-  public closeCreateDeckModal() {
-    this.visible = false;
+  private handleSave(formData: Record<string, string>) {
+    console.log(formData);
+    this.modalService.close()
   }
 
-  public createDeckModal(deckData: ICreateDeck) {
-    console.log('Deck created with data:', deckData);
-    this.closeCreateDeckModal();
+  private handleCancel() {
+    this.modalService.close()
+  }
+
+  private getEditCardModalWindowFields(): IModalField[] {
+    return [
+      { label: 'Deck Name', value: 'name' },
+      { label: 'Description', value: 'description' }
+    ]
   }
 }
