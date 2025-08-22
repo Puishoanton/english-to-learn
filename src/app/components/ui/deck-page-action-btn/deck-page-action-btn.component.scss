@@ -1,12 +1,15 @@
 @use '../../../../styles.scss' as *;
 
-.study-add-new {
+.deck-page-action-btn {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
 
-  .study-add-button {
+  .action-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 0.5rem 1rem;
 
     border: 1px solid $hover-color;
@@ -18,9 +21,10 @@
     transition: all 0.2s ease-in-out;
 
     ::ng-deep button {
-      ::ng-deep span {
-        margin-right: 5px;
-      }
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
     }
 
     &:hover {
