@@ -1,0 +1,9 @@
+commit_file="$1"
+commit_message=$(cat "$commit_file")
+
+pattern="^(feat|fix|ref|test): (Backend|Frontend|General) \| [A-Z].+$"
+
+if ! echo "$commit_message" | grep -Eq "$pattern"; then
+  echo "❌ Commit message must match: feat|fix|ref|test: Backend|Frontend|General | Title"
+  exit 1
+fi
