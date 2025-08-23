@@ -2,7 +2,6 @@ import { Component, inject, Input } from '@angular/core';
 import { ICard } from '../../../models/words-to-learn';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-import { ActivatedRoute } from '@angular/router';
 import { CardService } from '../../../services/words-to-learn/card.service';
 
 @Component({
@@ -25,20 +24,24 @@ import { CardService } from '../../../services/words-to-learn/card.service';
   styleUrl: './study-card.component.scss'
 })
 export class StudyCardComponent {
-  private readonly route = inject(ActivatedRoute);
+  private readonly cardService = inject(CardService);
 
   public deckId!: string
-  @Input() public currentCard!: ICard
-  @Input() public cards!: ICard[]
-  @Input() currentCardIndex!: number
+  @Input() public currentCard!: ICard & { study_again?: boolean }
+  @Input() public cards!: (ICard & { study_again?: boolean })[]
+  @Input() public currentCardIndex!: number
 
   public nextCard(isKnown: boolean): void {
-    if (!this.currentCard) return
+    if (!this.currentCard) return;
 
     const card = this.cards[this.currentCardIndex];
 
+    if (!card.study_again) {
+      this.changeWordProgress(card.id, isKnown ? 'increase' : 'decrease');
+    }
+
     if (!isKnown) {
-      this.cards.push(card);
+      this.cards.push({ ...card, study_again: true });
     }
 
     this.cards.splice(this.currentCardIndex, 1);
@@ -47,4 +50,9 @@ export class StudyCardComponent {
       this.currentCardIndex = 0;
     }
   }
+
+  private changeWordProgress(cardId: string, changeValue: 'decrease' | 'increase') {
+    this.cardService.changeProgress(cardId, changeValue)
+  }
+
 }
