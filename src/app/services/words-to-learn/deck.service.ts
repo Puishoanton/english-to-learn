@@ -15,6 +15,15 @@ export class DeckService {
       updatedAt: new Date(),
       wordsCount: 2,
       description: 'A collection of basic English words and their meanings.',
+    },
+    {
+      id: '2',
+      name: 'Test deck',
+      ownerId: 'user123',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      wordsCount: 0,
+      description: 'A collection of test words and their meanings.',
     }
   ]
   private readonly httpClient = inject(HttpClient);

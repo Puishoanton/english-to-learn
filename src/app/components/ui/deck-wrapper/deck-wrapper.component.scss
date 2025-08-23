@@ -3,7 +3,6 @@
 .deck-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 1rem 0;
   max-height: 31.25rem;
   overflow-y: auto;
@@ -35,9 +34,15 @@
     cursor: pointer;
   }
 
+  .decks {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
   .deck-accordion {
     width: 100%;
-    margin-top: 1rem;
 
     ::ng-deep p-accordion-panel {
       border: none;
