@@ -13,6 +13,7 @@ import { RouterLink } from '@angular/router';
   <p-accordion-panel [value]="deck.id">
   <div class="deck-header">
     <p-button class="deck-navigate" [label]="deck.name" [routerLink]="['/words-to-learn/deck', deck.id]"></p-button>
+    <p class="deck-info">{{deck.wordsCount ? 'Cards for today: ' + deck.wordsCount : 'No cards added yet'}}</p>
     <p-accordion-header class="deck-expand-btn">
       <ng-template #toggleicon let-active="active">
         @if (active) {
@@ -34,7 +35,7 @@ import { RouterLink } from '@angular/router';
 })
 export class DeckComponent {
   private readonly cardService = inject(CardService);
-  
+
   @Input() public deck!: IDeck;
   public cards: ICard[] = []
 

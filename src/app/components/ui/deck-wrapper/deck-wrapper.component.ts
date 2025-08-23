@@ -10,22 +10,22 @@ import { AccordionModule } from 'primeng/accordion';
   exportAs: 'DeckWrapperComponent',
   template: `
     <div class="deck-wrapper">
-    @if(decks.length){
-      <p-accordion class="deck-accordion">
-      <p>Decks:</p>
-      @for (deck of decks; track deck.id){
-      <app-deck [deck]=" deck"></app-deck>
+      @if(decks.length){
+        <p>Decks:</p>
+        <div class="decks">
+          @for (deck of decks; track deck.id){
+            <p-accordion class="deck-accordion">
+              <app-deck [deck]=" deck"></app-deck>
+            </p-accordion>
+          }
+        </div>
       }
-    </p-accordion>
-    }
-    @else {
-    <div>
-      <p>Create new deck</p>
-      <button pButton type="button" label="Add New" icon="pi pi-plus" (click)="addNewDeck()"></button>
-    </div>
-    }
-
-    
+      @else {
+      <div>
+        <p>Create new deck</p>
+        <button pButton type="button" label="Add New" icon="pi pi-plus" (click)="addNewDeck()"></button>
+      </div>
+      }
     </div>
   `,
   styleUrl: './deck-wrapper.component.scss'

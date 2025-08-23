@@ -9,6 +9,9 @@
   border-bottom-right-radius: 0rem;
 
   .deck-navigate {
+    width: 30%;
+    white-space: nowrap;
+    overflow: hidden;
     cursor: pointer;
     padding: 0.625rem;
     transition: $transition-btn;
@@ -17,6 +20,11 @@
     &:hover {
       background-color: $hover-color;
     }
+  }
+
+  .deck-info {
+    width: 33%;
+    padding: 0.625rem;
   }
 
   .deck-expand-btn {
