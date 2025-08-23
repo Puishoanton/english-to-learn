@@ -25,3 +25,21 @@ Thumbs.db
 
 
 package-lock.json
+
+/backend/bin/
+/backend/obj/
+
+/backend/*.dll
+/backend/*.exe
+/backend/*.pdb
+/backend/*.runtimeconfig.json
+/backend/*.deps.json
+/backend/*.db
+/backend/*.log
+
+/backend/*.user
+/backend/*.suo
+/backend/*.userosscache
+/backend/*.sln.docstates
+
+/backend/publish/
