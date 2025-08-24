@@ -10,6 +10,7 @@ npm-debug.log*
 dist/
 build/
 out/
+.vs/
 
 .vscode/
 .idea/
@@ -20,12 +21,11 @@ out/
 
 .husky/_/
 
-.DS_Store
-Thumbs.db
-
 
 package-lock.json
 
+/backend/.DS_Store
+/backend/Thumbs.db
 /backend/bin/
 /backend/obj/
 
@@ -41,5 +41,8 @@ package-lock.json
 /backend/*.suo
 /backend/*.userosscache
 /backend/*.sln.docstates
+/backend/appsettings.Development.json
+/backend/appsettings.*.local.json
+/backend/.vs/
 
 /backend/publish/
