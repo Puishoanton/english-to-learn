@@ -1,6 +1,10 @@
+using EnglishToLearn.Aplication.Interfaces.Repositories;
 using EnglishToLearn.Infrastructure.Data;
+using EnglishToLearn.Infrastructure.Repositories;
+using EnglishToLearn.Domain.Entities;
 using Microsoft.EntityFrameworkCore; 
-using Npgsql.EntityFrameworkCore.PostgreSQL;
+using EnglishToLearn.Aplication.Interfaces.Services;
+using EnglishToLearn.Aplication.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,15 +15,29 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddScoped<IRepository<Card>, CardRepository>();
+
+builder.Services.AddScoped<ICardService, CardService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
 
 var summaries = new[]
 {
