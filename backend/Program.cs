@@ -22,8 +22,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddScoped<IRepository<Card>, CardRepository>();
-
 builder.Services.AddScoped<ICardService, CardService>();
+
+builder.Services.AddScoped<IRepository<Deck>, DeckRepository>();
+builder.Services.AddScoped<IDeckService, DeckService>();
 
 var app = builder.Build();
 
