@@ -1,14 +1,11 @@
-﻿using System.Security.Claims;
-using System.Text.Json;
-using EnglishToLearn.Aplication.DTOs.User;
-using EnglishToLearn.Aplication.Interfaces.Repositories;
-using EnglishToLearn.Aplication.Interfaces.Services;
+﻿using EnglishToLearn.Application.DTOs.User;
+using EnglishToLearn.Application.Interfaces.Repositories;
+using EnglishToLearn.Application.Interfaces.Services;
 using EnglishToLearn.Domain.Entities;
 using Google.Apis.Auth;
-using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 
-namespace EnglishToLearn.Aplication.Services
+namespace EnglishToLearn.Application.Services
 {
     public class AuthService(
         IUserRepository userRepository,

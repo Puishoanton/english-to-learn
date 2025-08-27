@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace EnglishToLearn.Aplication.DTOs.Deck
+namespace EnglishToLearn.Application.DTOs.Deck
 {
     public class CreateDeckDto
     {

@@ -1,10 +1,10 @@
 using AutoMapper;
-using EnglishToLearn.Aplication.DTOs.Card;
-using EnglishToLearn.Aplication.Interfaces.Repositories;
-using EnglishToLearn.Aplication.Interfaces.Services;
+using EnglishToLearn.Application.DTOs.Card;
+using EnglishToLearn.Application.Interfaces.Repositories;
+using EnglishToLearn.Application.Interfaces.Services;
 using EnglishToLearn.Domain.Entities;
 
-namespace EnglishToLearn.Aplication.Services
+namespace EnglishToLearn.Application.Services
 {
     public class CardService(IRepository<Card> cardRepository, IMapper mapper) : ICardService
     {

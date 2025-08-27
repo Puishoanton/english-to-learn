@@ -1,10 +1,10 @@
 using AutoMapper;
-using EnglishToLearn.Aplication.DTOs.Deck;
-using EnglishToLearn.Aplication.Interfaces.Repositories;
-using EnglishToLearn.Aplication.Interfaces.Services;
+using EnglishToLearn.Application.DTOs.Deck;
+using EnglishToLearn.Application.Interfaces.Repositories;
+using EnglishToLearn.Application.Interfaces.Services;
 using EnglishToLearn.Domain.Entities;
 
-namespace EnglishToLearn.Aplication.Services
+namespace EnglishToLearn.Application.Services
 {
     public class DeckService(IRepository<Deck> deckRepository, IMapper mapper) :IDeckService
     {

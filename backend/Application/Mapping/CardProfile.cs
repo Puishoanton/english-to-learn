@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using EnglishToLearn.Aplication.DTOs.Card;
+using EnglishToLearn.Application.DTOs.Card;
 using EnglishToLearn.Domain.Entities;
 
-namespace EnglishToLearn.Aplication.Mapping
+namespace EnglishToLearn.Application.Mapping
 {
     public class CardProfile : Profile
     {

@@ -1,6 +1,6 @@
-﻿using EnglishToLearn.Aplication.DTOs.Deck;
+﻿using EnglishToLearn.Application.DTOs.Deck;
 using EnglishToLearn.Domain.Entities;
-namespace EnglishToLearn.Aplication.Interfaces.Services
+namespace EnglishToLearn.Application.Interfaces.Services
 {
     public interface IDeckService
     {

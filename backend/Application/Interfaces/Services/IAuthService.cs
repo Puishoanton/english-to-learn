@@ -1,6 +1,6 @@
-﻿using EnglishToLearn.Aplication.DTOs.User;
+﻿using EnglishToLearn.Application.DTOs.User;
 
-namespace EnglishToLearn.Aplication.Interfaces.Services
+namespace EnglishToLearn.Application.Interfaces.Services
 {
     public interface IAuthService
     {

@@ -1,7 +1,7 @@
-﻿using EnglishToLearn.Aplication.DTOs.Card;
+﻿using EnglishToLearn.Application.DTOs.Card;
 using EnglishToLearn.Domain.Entities;
 
-namespace EnglishToLearn.Aplication.Interfaces.Services
+namespace EnglishToLearn.Application.Interfaces.Services
 {
     public interface ICardService
     {

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace EnglishToLearn.Aplication.DTOs.Card
+namespace EnglishToLearn.Application.DTOs.Card
 {
     public class CreateCardDto
     {

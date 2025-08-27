@@ -1,6 +1,6 @@
 using EnglishToLearn.Domain.Entities;
 
-namespace EnglishToLearn.Aplication.Interfaces.Repositories
+namespace EnglishToLearn.Application.Interfaces.Repositories
 {
     public interface IUserRepository : IRepository<User>
     {

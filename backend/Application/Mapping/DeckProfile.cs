@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using EnglishToLearn.Aplication.DTOs.Deck;
+using EnglishToLearn.Application.DTOs.Deck;
 using EnglishToLearn.Domain.Entities;
 
-namespace EnglishToLearn.Aplication.Mapping
+namespace EnglishToLearn.Application.Mapping
 {
     public class DeckProfile : Profile
     {
