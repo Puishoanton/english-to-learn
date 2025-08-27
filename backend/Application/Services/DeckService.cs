@@ -6,9 +6,14 @@ using EnglishToLearn.Domain.Entities;
 
 namespace EnglishToLearn.Application.Services
 {
-    public class DeckService(IRepository<Deck> deckRepository, IMapper mapper) :IDeckService
+    public class DeckService(
+        IRepository<Deck> deckRepository,
+        IUserRepository userRepository,
+        IMapper mapper
+        ) : IDeckService
     {
         private readonly IRepository<Deck> _deckRepository = deckRepository;
+        private readonly IUserRepository _userRepository = userRepository;
         private readonly IMapper _mapper = mapper;
 
         public async Task<Deck?> GetDeckByIdAsync(Guid id)
@@ -21,14 +26,37 @@ namespace EnglishToLearn.Application.Services
             return await _deckRepository.GetAllAsync();
         }
 
-        public async Task AddDeckAsync(Deck deck)
+        public async Task<ReturnDeckDto> AddDeckAsync(CreateDeckDto createDeckDto, string? userId)
         {
-            ValidateDeckForCreation(deck);
+            ValidateDeckForCreation(createDeckDto, userId);
 
-            deck.CreatedAt = DateTimeOffset.UtcNow;
-            deck.UpdatedAt = DateTimeOffset.UtcNow;
+            User? user = await _userRepository.GetByIdAsync(Guid.Parse(userId!));
+            if (user == null)
+            {
+                throw new ArgumentException($"User with ID {userId} not found.");
+            }
 
-            await _deckRepository.AddAsync(deck);
+            Deck newDeck = new()
+            {
+                UserId = Guid.Parse(userId!),
+                Name = createDeckDto.Name,
+                User = user,
+                Description = createDeckDto.Description,
+                CreatedAt = DateTimeOffset.UtcNow,
+                UpdatedAt = DateTimeOffset.UtcNow
+            };
+
+            await _deckRepository.AddAsync(newDeck);
+
+            ReturnDeckDto returnDeckDto = new ()
+            {
+                Id = newDeck.Id,
+                Name = newDeck.Name,
+                Description = newDeck.Description,
+                UserId = newDeck.UserId,
+            };
+
+            return returnDeckDto;
         }
 
         public async Task UpdateDeckAsync(Guid id, UpdateDeckDto updateDeckDto)
@@ -40,7 +68,7 @@ namespace EnglishToLearn.Application.Services
             }
 
             _mapper.Map(updateDeckDto, updatedDeck);
-           
+
             await _deckRepository.UpdateAsync(updatedDeck);
         }
 
@@ -49,12 +77,16 @@ namespace EnglishToLearn.Application.Services
             await _deckRepository.DeleteAsync(id);
         }
 
-        private static void ValidateDeckForCreation(Deck deck)
+        private static void ValidateDeckForCreation(CreateDeckDto createDeckDto, string? userId)
         {
             List<string> errors = [];
-            if (string.IsNullOrWhiteSpace(deck.Name))
+            if (string.IsNullOrWhiteSpace(createDeckDto.Name))
             {
                 errors.Add("Deck 'Name' cannot be empty or whitespace.");
+            }
+            if (userId == null)
+            {
+                errors.Add("User ID cannot be null.");
             }
             if (errors.Any())
             {

@@ -6,7 +6,7 @@ namespace EnglishToLearn.Application.Interfaces.Services
     {
         Task<Deck?> GetDeckByIdAsync(Guid id);
         Task<ICollection<Deck>> GetAllDecks();
-        Task AddDeckAsync(Deck deck);
+        Task<ReturnDeckDto> AddDeckAsync(CreateDeckDto createDeckDto, string? userId);
         Task UpdateDeckAsync(Guid id, UpdateDeckDto updateDeckDto);
         Task DeleteDeckAsync(Guid id);
     }
