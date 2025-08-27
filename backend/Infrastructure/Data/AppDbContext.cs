@@ -26,10 +26,7 @@ public class AppDbContext : DbContext
             .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<User>()
-           .Property(user => user.Username)
-           .IsRequired();
-        modelBuilder.Entity<User>()
-           .Property(user => user.PasswordHash)
+           .Property(user => user.Email)
            .IsRequired();
 
         modelBuilder.Entity<Deck>()
