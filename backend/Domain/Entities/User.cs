@@ -4,13 +4,13 @@ namespace EnglishToLearn.Domain.Entities
 {
     public class User
     {
+        [Key]
         public Guid Id { get; set; }
 
         [Required]
-        public string Username { get; set; } = string.Empty;
+        public string? Email { get; set; }
 
-        [Required]
-        public string PasswordHash { get; set; } = string.Empty;
+        public string? RefreshToken { get; set; }
 
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset UpdatedAt { get; set; }

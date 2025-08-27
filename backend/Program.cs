@@ -1,10 +1,16 @@
+using System.Text;
+using EnglishToLearn.Api.Swagger;
 using EnglishToLearn.Aplication.Interfaces.Repositories;
-using EnglishToLearn.Infrastructure.Data;
-using EnglishToLearn.Infrastructure.Repositories;
-using EnglishToLearn.Domain.Entities;
-using Microsoft.EntityFrameworkCore; 
 using EnglishToLearn.Aplication.Interfaces.Services;
 using EnglishToLearn.Aplication.Services;
+using EnglishToLearn.Domain.Entities;
+using EnglishToLearn.Infrastructure.Data;
+using EnglishToLearn.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +23,55 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        string? tokenSecretKey = builder.Configuration["Jwt:AccessTokenSecretKey"];
+        if (string.IsNullOrEmpty(tokenSecretKey))
+        {
+            throw new InvalidOperationException("JWT access token secret key is missing.");
+        }
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(tokenSecretKey))
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "English To Learn API",
+        Version = "v1"
+    });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "Bearer {JWT}",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityDefinition("RefreshToken", new OpenApiSecurityScheme
+    {
+        Description = "Refresh token",
+        Name = "X-Refresh-Token",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "RefreshToken"
+    });
+
+    c.OperationFilter<AuthorizeCheckOperationFilter>();
+});
 
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -26,6 +80,12 @@ builder.Services.AddScoped<ICardService, CardService>();
 
 builder.Services.AddScoped<IRepository<Deck>, DeckRepository>();
 builder.Services.AddScoped<IDeckService, DeckService>();
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthTokenService, AuthTokenService>();
+
 
 var app = builder.Build();
 
@@ -38,6 +98,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
@@ -48,7 +109,7 @@ var summaries = new[]
 
 app.MapGet("/weatherforecast", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
+    var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

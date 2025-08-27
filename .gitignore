@@ -43,6 +43,7 @@ package-lock.json
 /backend/*.sln.docstates
 /backend/appsettings.Development.json
 /backend/appsettings.*.local.json
+/backend/appsettings.json
 /backend/.vs/
 
 /backend/publish/
