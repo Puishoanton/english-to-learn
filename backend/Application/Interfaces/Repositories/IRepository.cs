@@ -1,4 +1,4 @@
-namespace EnglishToLearn.Aplication.Interfaces.Repositories
+namespace EnglishToLearn.Application.Interfaces.Repositories
 {
     public interface IRepository<T> where T : class
     {

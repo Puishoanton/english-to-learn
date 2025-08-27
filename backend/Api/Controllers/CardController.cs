@@ -1,5 +1,5 @@
-using EnglishToLearn.Aplication.DTOs.Card;
-using EnglishToLearn.Aplication.Interfaces.Services;
+using EnglishToLearn.Application.DTOs.Card;
+using EnglishToLearn.Application.Interfaces.Services;
 using EnglishToLearn.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 

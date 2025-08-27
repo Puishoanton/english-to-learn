@@ -1,8 +1,8 @@
 using System.Text;
 using EnglishToLearn.Api.Swagger;
-using EnglishToLearn.Aplication.Interfaces.Repositories;
-using EnglishToLearn.Aplication.Interfaces.Services;
-using EnglishToLearn.Aplication.Services;
+using EnglishToLearn.Application.Interfaces.Repositories;
+using EnglishToLearn.Application.Interfaces.Services;
+using EnglishToLearn.Application.Services;
 using EnglishToLearn.Domain.Entities;
 using EnglishToLearn.Infrastructure.Data;
 using EnglishToLearn.Infrastructure.Repositories;

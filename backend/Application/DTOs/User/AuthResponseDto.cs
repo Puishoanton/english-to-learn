@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace EnglishToLearn.Aplication.DTOs.User
+namespace EnglishToLearn.Application.DTOs.User
 {
     public class AuthResponseDto
     {

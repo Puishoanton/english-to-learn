@@ -1,4 +1,4 @@
-﻿using EnglishToLearn.Aplication.Interfaces.Repositories;
+﻿using EnglishToLearn.Application.Interfaces.Repositories;
 using EnglishToLearn.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 

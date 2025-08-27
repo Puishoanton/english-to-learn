@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using EnglishToLearn.Domain.Entities;
 
-namespace EnglishToLearn.Aplication.Interfaces.Services
+namespace EnglishToLearn.Application.Interfaces.Services
 {
     public interface IAuthTokenService
     {

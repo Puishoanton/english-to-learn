@@ -1,5 +1,5 @@
-﻿using EnglishToLearn.Aplication.DTOs.User;
-using EnglishToLearn.Aplication.Interfaces.Services;
+﻿using EnglishToLearn.Application.DTOs.User;
+using EnglishToLearn.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

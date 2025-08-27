@@ -1,12 +1,12 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using EnglishToLearn.Aplication.Interfaces.Services;
+using EnglishToLearn.Application.Interfaces.Services;
 using EnglishToLearn.Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
 
 
-namespace EnglishToLearn.Aplication.Services
+namespace EnglishToLearn.Application.Services
 {
     public class AuthTokenService(IConfiguration configuration) : IAuthTokenService
     {
