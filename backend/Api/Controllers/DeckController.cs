@@ -17,8 +17,7 @@ namespace EnglishToLearn.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDeckById(Guid id)
         {
-            Deck? deck = await _deckService.GetDeckByIdAsync(id);
-
+            ReturnDeckDto? deck = await _deckService.GetDeckByIdAsync(id);
             if (deck == null)
             {
                 return NotFound();
@@ -30,7 +29,7 @@ namespace EnglishToLearn.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllDecks()
         {
-            ICollection<Deck> decks = await _deckService.GetAllDecks();
+            ICollection<ReturnDeckDto> decks = await _deckService.GetAllDecks();
             return Ok(decks);
         }
 

@@ -16,14 +16,16 @@ namespace EnglishToLearn.Application.Services
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<Deck?> GetDeckByIdAsync(Guid id)
+        public async Task<ReturnDeckDto?> GetDeckByIdAsync(Guid id)
         {
-            return await _deckRepository.GetByIdAsync(id);
+            Deck? deck = await _deckRepository.GetByIdAsync(id);
+            return _mapper.Map<ReturnDeckDto>(deck);
         }
 
-        public async Task<ICollection<Deck>> GetAllDecks()
+        public async Task<ICollection<ReturnDeckDto>> GetAllDecks()
         {
-            return await _deckRepository.GetAllAsync();
+            ICollection<Deck> decks = await _deckRepository.GetAllAsync();
+            return _mapper.Map<ICollection<ReturnDeckDto>>(decks);
         }
 
         public async Task<ReturnDeckDto> AddDeckAsync(CreateDeckDto createDeckDto, string? userId)
@@ -36,27 +38,14 @@ namespace EnglishToLearn.Application.Services
                 throw new ArgumentException($"User with ID {userId} not found.");
             }
 
-            Deck newDeck = new()
-            {
-                UserId = Guid.Parse(userId!),
-                Name = createDeckDto.Name,
-                User = user,
-                Description = createDeckDto.Description,
-                CreatedAt = DateTimeOffset.UtcNow,
-                UpdatedAt = DateTimeOffset.UtcNow
-            };
+            Deck newDeck = _mapper.Map<Deck>(createDeckDto);
+            newDeck.UserId = user.Id;
+            newDeck.CreatedAt = DateTimeOffset.UtcNow;
+            newDeck.UpdatedAt = DateTimeOffset.UtcNow;
 
             await _deckRepository.AddAsync(newDeck);
 
-            ReturnDeckDto returnDeckDto = new ()
-            {
-                Id = newDeck.Id,
-                Name = newDeck.Name,
-                Description = newDeck.Description,
-                UserId = newDeck.UserId,
-            };
-
-            return returnDeckDto;
+            return _mapper.Map<ReturnDeckDto>(newDeck);
         }
 
         public async Task UpdateDeckAsync(Guid id, UpdateDeckDto updateDeckDto)

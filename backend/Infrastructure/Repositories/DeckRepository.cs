@@ -11,12 +11,16 @@ namespace EnglishToLearn.Infrastructure.Repositories
 
         public async Task<Deck?> GetByIdAsync(Guid id)
         {
-            return await _context.Decks.FindAsync(id);
+            return await _context.Decks
+                .Include(deck => deck.Cards)
+                .FirstOrDefaultAsync(deck => deck.Id == id);
         }
 
         public async Task<ICollection<Deck>> GetAllAsync()
         {
-            return await _context.Decks.ToListAsync();
+            return await _context.Decks
+                .Include(deck => deck.Cards)
+                .ToListAsync();
         }
 
         public async Task AddAsync(Deck deck)
