@@ -6,30 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace EnglishToLearn.Api.Controllers
 {
     [ApiController]
-    [Route("api/cards")]
+    [Route("api/decks/{deckId}/cards")]
     public class CardController(ICardService cardService) : ControllerBase
     {
         private readonly ICardService _cardService = cardService;
 
         [HttpPost]
-        public async Task<IActionResult> CreateCard([FromBody] CreateCardDto createCardDto)
+        public async Task<IActionResult> CreateCard([FromBody] CreateCardDto createCardDto, string deckId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            Card card = new()
-            {
-                DeckId = createCardDto.DeckId,
-                Word = createCardDto.Word,
-                Translation = createCardDto.Translation,
-                WordContext = createCardDto.WordContext,
-                TranslationContext = createCardDto.TranslationContext,
-            };
-
             try
             {
-                await _cardService.AddCardAsync(card);
+                ReturnCardDto card = await _cardService.AddCardAsync(createCardDto, deckId);
                 return CreatedAtAction(nameof(CreateCard), new { id = card.Id }, card);
             }
             catch (ArgumentException ex)
@@ -37,20 +24,18 @@ namespace EnglishToLearn.Api.Controllers
                 return BadRequest(ex);
             }
         }
-
+        
         [HttpGet]
-        public async Task<IActionResult> GetAllCards()
+        public async Task<IActionResult> GetAllCards(string deckId)
         {
-            ICollection<Card> cards = await _cardService.GetAllCards();
-
+            ICollection<ReturnCardDto> cards = await _cardService.GetAllCards(deckId);
             return Ok(cards);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCardById(Guid id)
         {
-            Card? card = await _cardService.GetCardByIdAsync(id);
-
+            ReturnCardDto? card = await _cardService.GetCardByIdAsync(id);
             if (card == null)
             {
                 return NotFound();
@@ -62,11 +47,6 @@ namespace EnglishToLearn.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCard(Guid id, UpdateCardDto updateCardDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 await _cardService.UpdateCardAsync(id, updateCardDto);

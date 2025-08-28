@@ -75,7 +75,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddAutoMapper(typeof(Program));
 
-builder.Services.AddScoped<IRepository<Card>, CardRepository>();
+builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<ICardService, CardService>();
 
 builder.Services.AddScoped<IRepository<Deck>, DeckRepository>();

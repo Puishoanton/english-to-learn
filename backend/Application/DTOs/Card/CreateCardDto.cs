@@ -6,10 +6,6 @@ namespace EnglishToLearn.Application.DTOs.Card
     public class CreateCardDto
     {
         [Required]
-        [JsonPropertyName("deckId")]
-        public Guid DeckId { get; set; }
-
-        [Required]
         [JsonPropertyName("word")]
         public string Word { get; set; } = string.Empty;
 
