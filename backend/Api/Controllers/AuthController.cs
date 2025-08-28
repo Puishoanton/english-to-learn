@@ -1,4 +1,5 @@
 ﻿using EnglishToLearn.Application.DTOs.User;
+using EnglishToLearn.Application.Exceptions;
 using EnglishToLearn.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +15,7 @@ namespace EnglishToLearn.Api.Controllers
         [HttpPost("google-login")]
         public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginDto googleLoginDto)
         {
-            if (googleLoginDto == null || string.IsNullOrEmpty(googleLoginDto.IdToken))
-            {
-                return BadRequest("ID token is required.");
-            }
-
             AuthResponseDto response = await _authService.GoogleLoginAsync(googleLoginDto);
-
             return Ok(response);
         }
 
@@ -29,11 +24,6 @@ namespace EnglishToLearn.Api.Controllers
         public async Task<IActionResult> RefreshTokensAsync()
         {
             string? refreshToken = Request.Headers["X-Refresh-Token"].FirstOrDefault();
-
-            if (string.IsNullOrEmpty(refreshToken))
-            {
-                return Unauthorized("Refresh token is required.");
-            }
 
             AuthResponseDto response = await _authService.RefreshTokensAsync(refreshToken);
             
@@ -48,7 +38,7 @@ namespace EnglishToLearn.Api.Controllers
 
             if (string.IsNullOrEmpty(refreshToken))
             {
-                return Unauthorized("Refresh token is required.");
+                throw new UnauthorizedException("Refresh token is required.");
             }
             await _authService.LogoutAsync(refreshToken);
             return Ok();

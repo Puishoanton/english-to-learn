@@ -1,11 +1,12 @@
 using EnglishToLearn.Application.DTOs.Card;
 using EnglishToLearn.Application.Interfaces.Services;
-using EnglishToLearn.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnglishToLearn.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/decks/{deckId}/cards")]
     public class CardController(ICardService cardService) : ControllerBase
     {
@@ -14,17 +15,10 @@ namespace EnglishToLearn.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCard([FromBody] CreateCardDto createCardDto, string deckId)
         {
-            try
-            {
-                ReturnCardDto card = await _cardService.AddCardAsync(createCardDto, deckId);
-                return CreatedAtAction(nameof(CreateCard), new { id = card.Id }, card);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(ex);
-            }
+            ReturnCardDto card = await _cardService.AddCardAsync(createCardDto, deckId);
+            return CreatedAtAction(nameof(CreateCard), new { id = card.Id }, card);
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetAllCards(string deckId)
         {
@@ -36,41 +30,21 @@ namespace EnglishToLearn.Api.Controllers
         public async Task<IActionResult> GetCardById(Guid id)
         {
             ReturnCardDto? card = await _cardService.GetCardByIdAsync(id);
-            if (card == null)
-            {
-                return NotFound();
-            }
-
             return Ok(card);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCard(Guid id, UpdateCardDto updateCardDto)
         {
-            try
-            {
-                await _cardService.UpdateCardAsync(id, updateCardDto);
-                return Ok();
-            }
-            catch (ArgumentException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            await _cardService.UpdateCardAsync(id, updateCardDto);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCard(Guid id)
         {
-            try
-            {
-                await _cardService.DeleteCardAsync(id);
-
-                return Ok();
-            }
-            catch (ArgumentException)
-            {
-                return NotFound();
-            }
+            await _cardService.DeleteCardAsync(id);
+            return Ok();
         }
 
     }

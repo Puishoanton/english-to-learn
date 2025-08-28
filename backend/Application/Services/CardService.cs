@@ -1,5 +1,6 @@
 using AutoMapper;
 using EnglishToLearn.Application.DTOs.Card;
+using EnglishToLearn.Application.Exceptions;
 using EnglishToLearn.Application.Interfaces.Repositories;
 using EnglishToLearn.Application.Interfaces.Services;
 using EnglishToLearn.Domain.Entities;
@@ -14,6 +15,11 @@ namespace EnglishToLearn.Application.Services
         public async Task<ReturnCardDto?> GetCardByIdAsync(Guid id)
         {
             Card? card = await _cardRepository.GetByIdAsync(id);
+            if (card == null)
+            {
+                throw new NotFoundException($"Card with ID {id} not found.");
+            }
+
             return _mapper.Map<ReturnCardDto>(card);
         }
 
@@ -24,9 +30,7 @@ namespace EnglishToLearn.Application.Services
         }
 
         public async Task<ReturnCardDto> AddCardAsync(CreateCardDto createCardDto, string deckId)
-        {
-            ValidateCardForCreation(createCardDto, deckId);
-
+        {   
             Card card = _mapper.Map<Card>(createCardDto);
             
             card.DeckId = Guid.Parse(deckId);
@@ -43,7 +47,7 @@ namespace EnglishToLearn.Application.Services
             Card? updatedCard = await _cardRepository.GetByIdAsync(id);
             if (updatedCard == null)
             {
-                throw new ArgumentException($"Card with ID {id} not found.");
+                throw new NotFoundException($"Card with ID {id} not found.");
             }
 
             _mapper.Map(updateCardDto, updatedCard);
@@ -53,40 +57,11 @@ namespace EnglishToLearn.Application.Services
 
         public async Task DeleteCardAsync(Guid id)
         {
-            await _cardRepository.DeleteAsync(id);
-        }
-        private static void ValidateCardForCreation(CreateCardDto createCardDto, string deckId)
-        {
-            List<string> errors = [];
-
-            if (string.IsNullOrWhiteSpace(createCardDto.Word))
+            bool deleted = await _cardRepository.DeleteAsync(id);
+            if (!deleted)
             {
-                errors.Add("Card 'Word' cannot be empty or whitespace.");
+                throw new NotFoundException($"Card with ID {id} not found.");
             }
-
-            if (string.IsNullOrWhiteSpace(createCardDto.Translation))
-            {
-                errors.Add("Card 'Translation' cannot be empty or whitespace.");
-            }
-
-            if (string.IsNullOrWhiteSpace(createCardDto.WordContext))
-            {
-                errors.Add("Card 'WordContext' cannot be empty or whitespace.");
-            }
-
-            if (string.IsNullOrWhiteSpace(createCardDto.TranslationContext))
-            {
-                errors.Add("Card 'TranslationContext' cannot be empty or whitespace.");
-            }
-            if (deckId == null)
-            {
-                errors.Add("Deck ID cannot be null.");
-            }
-            if (errors.Count != 0)
-            {
-                throw new ArgumentException(string.Join(" ", errors));
-            }
-
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EnglishToLearn.Application.DTOs.User;
+using EnglishToLearn.Application.Exceptions;
 using EnglishToLearn.Application.Interfaces.Repositories;
 using EnglishToLearn.Application.Interfaces.Services;
 using EnglishToLearn.Domain.Entities;
@@ -25,7 +26,7 @@ namespace EnglishToLearn.Application.Services
             }
             catch (InvalidJwtException)
             {
-                throw new ArgumentException("Invalid Google ID token.");
+                throw new BadRequestException("Invalid Google ID token.");
             }
 
             User? user = await _userRepository.GetByEmailAsync(payload.Email);
@@ -54,7 +55,7 @@ namespace EnglishToLearn.Application.Services
             };
         }
 
-        public async Task<AuthResponseDto> RefreshTokensAsync(string refreshToken)
+        public async Task<AuthResponseDto> RefreshTokensAsync(string? refreshToken)
         {
             try
             {
@@ -62,7 +63,7 @@ namespace EnglishToLearn.Application.Services
             }
             catch
             {
-                throw new ArgumentException("Invalid refresh token.");
+                throw new BadRequestException("Invalid refresh token.");
             }
 
             User? user = await _userRepository.GetByRefreshTokenAsync(refreshToken);
@@ -74,7 +75,7 @@ namespace EnglishToLearn.Application.Services
                     await _userRepository.UpdateAsync(user);
                 }
 
-                throw new ArgumentException("Invalid refresh token.");
+                throw new BadRequestException("Invalid refresh token.");
             }
 
             string newAccessToken = _authTokenService.GenerateAccessToken(user);

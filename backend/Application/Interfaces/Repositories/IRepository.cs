@@ -6,6 +6,6 @@ namespace EnglishToLearn.Application.Interfaces.Repositories
         Task<ICollection<T>> GetAllAsync();
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
-        Task DeleteAsync(Guid id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }

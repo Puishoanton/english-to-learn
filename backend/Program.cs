@@ -3,8 +3,8 @@ using EnglishToLearn.Api.Swagger;
 using EnglishToLearn.Application.Interfaces.Repositories;
 using EnglishToLearn.Application.Interfaces.Services;
 using EnglishToLearn.Application.Services;
-using EnglishToLearn.Domain.Entities;
 using EnglishToLearn.Infrastructure.Data;
+using EnglishToLearn.Infrastructure.Middleware;
 using EnglishToLearn.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -78,7 +78,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<ICardRepository, CardRepository>();
 builder.Services.AddScoped<ICardService, CardService>();
 
-builder.Services.AddScoped<IRepository<Deck>, DeckRepository>();
+builder.Services.AddScoped<IDeckRepository, DeckRepository>();
 builder.Services.AddScoped<IDeckService, DeckService>();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
@@ -90,6 +90,8 @@ builder.Services.AddScoped<IAuthTokenService, AuthTokenService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
