@@ -5,10 +5,6 @@ namespace EnglishToLearn.Application.DTOs.Card
 {
     public class UpdateCardDto
     {
-        [Required]
-        [JsonPropertyName("deckId")]
-        public Guid DeckId { get; set; }
-
         [JsonPropertyName("word")]
         public string? Word { get; set; }
 

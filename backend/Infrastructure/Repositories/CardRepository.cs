@@ -1,3 +1,4 @@
+using EnglishToLearn.Application.DTOs.Card;
 using EnglishToLearn.Application.Interfaces.Repositories;
 using EnglishToLearn.Domain.Entities;
 using EnglishToLearn.Infrastructure.Data;
@@ -6,13 +7,18 @@ using Microsoft.EntityFrameworkCore;
 namespace EnglishToLearn.Infrastructure.Repositories
 {
 
-    public class CardRepository(AppDbContext context) : IRepository<Card>
+    public class CardRepository(AppDbContext context) : ICardRepository
     {
         private readonly AppDbContext _context = context;
 
         public async Task<Card?> GetByIdAsync(Guid id)
         {
             return await _context.Cards.FindAsync(id);
+        }
+
+        public async Task<ICollection<Card>> GetAllCardsByDeckIdAsync(string deckId)
+        {
+            return await _context.Cards.Where(card => card.DeckId == Guid.Parse(deckId)).ToListAsync();
         }
 
         public async Task<ICollection<Card>> GetAllAsync()
