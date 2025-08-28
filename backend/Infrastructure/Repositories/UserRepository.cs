@@ -13,7 +13,7 @@ namespace EnglishToLearn.Infrastructure.Repositories
             return await _context.Users.FirstOrDefaultAsync(user=> user.Email == email);
         }
 
-        public async Task<User?> GetByRefreshTokenAsync (string refreshId )
+        public async Task<User?> GetByRefreshTokenAsync (string? refreshId )
         {
             return await _context.Users.FirstOrDefaultAsync(user => user.RefreshToken == refreshId);
 

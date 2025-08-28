@@ -7,6 +7,6 @@ namespace EnglishToLearn.Application.Interfaces.Services
     {
         string GenerateAccessToken(User user);
         string GenerateRefreshToken();
-        ClaimsPrincipal GetPrincipalFromToken(string token);
+        ClaimsPrincipal GetPrincipalFromToken(string? token);
     }
 }

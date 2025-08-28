@@ -53,7 +53,7 @@ namespace EnglishToLearn.Application.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public ClaimsPrincipal GetPrincipalFromToken(string token)
+        public ClaimsPrincipal GetPrincipalFromToken(string? token)
         {
             JwtSecurityTokenHandler tokenHandler = new();
 

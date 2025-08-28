@@ -5,44 +5,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EnglishToLearn.Infrastructure.Repositories
 {
-    public class DeckRepository (AppDbContext context) : IRepository<Deck>
+    public class DeckRepository(AppDbContext context) : GenericRepository<Deck>(context), IDeckRepository
     {
         private readonly AppDbContext _context = context;
 
-        public async Task<Deck?> GetByIdAsync(Guid id)
+        public async Task<Deck?> GetByIdWithCardsAsync(Guid id)
         {
             return await _context.Decks
                 .Include(deck => deck.Cards)
                 .FirstOrDefaultAsync(deck => deck.Id == id);
         }
 
-        public async Task<ICollection<Deck>> GetAllAsync()
+        public async Task<ICollection<Deck>> GetAllWithCardsAsync()
         {
             return await _context.Decks
                 .Include(deck => deck.Cards)
                 .ToListAsync();
         }
 
-        public async Task AddAsync(Deck deck)
-        {
-            await _context.Decks.AddAsync(deck);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync(Deck deck)
-        {
-            _context.Decks.Update(deck);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(Guid id)
-        {
-            Deck ? deck = await _context.Decks.FindAsync(id);
-            if(deck !=null)
-            {
-                _context.Decks.Remove(deck);
-                await _context.SaveChangesAsync();
-            }
-        }
     }
 }

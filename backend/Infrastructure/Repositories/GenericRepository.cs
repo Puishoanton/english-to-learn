@@ -30,14 +30,18 @@ namespace EnglishToLearn.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Guid id)
+        public async Task<Boolean> DeleteAsync(Guid id)
         {
             T? entity = await GetByIdAsync(id);
             if (entity != null)
             {
                 _context.Set<T>().Remove(entity);
                 await _context.SaveChangesAsync();
+                
+                return true;
             }
+
+            return false;
         }
 
     }
