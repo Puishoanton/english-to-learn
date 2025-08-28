@@ -1,12 +1,11 @@
 ﻿using EnglishToLearn.Application.DTOs.Deck;
-using EnglishToLearn.Domain.Entities;
 namespace EnglishToLearn.Application.Interfaces.Services
 {
     public interface IDeckService
     {
-        Task<Deck?> GetDeckByIdAsync(Guid id);
-        Task<ICollection<Deck>> GetAllDecks();
-        Task AddDeckAsync(Deck deck);
+        Task<ReturnDeckDto?> GetDeckByIdAsync(Guid id);
+        Task<ICollection<ReturnDeckDto>> GetAllDecks();
+        Task<ReturnDeckDto> AddDeckAsync(CreateDeckDto createDeckDto, string? userId);
         Task UpdateDeckAsync(Guid id, UpdateDeckDto updateDeckDto);
         Task DeleteDeckAsync(Guid id);
     }

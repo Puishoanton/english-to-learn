@@ -1,11 +1,14 @@
+using System.Security.Claims;
 using EnglishToLearn.Application.DTOs.Deck;
 using EnglishToLearn.Application.Interfaces.Services;
 using EnglishToLearn.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnglishToLearn.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/decks")]
     public class DeckController(IDeckService deckService) : ControllerBase
     {
@@ -14,8 +17,7 @@ namespace EnglishToLearn.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDeckById(Guid id)
         {
-            Deck? deck = await _deckService.GetDeckByIdAsync(id);
-
+            ReturnDeckDto? deck = await _deckService.GetDeckByIdAsync(id);
             if (deck == null)
             {
                 return NotFound();
@@ -27,7 +29,7 @@ namespace EnglishToLearn.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllDecks()
         {
-            ICollection<Deck> decks = await _deckService.GetAllDecks();
+            ICollection<ReturnDeckDto> decks = await _deckService.GetAllDecks();
             return Ok(decks);
         }
 
@@ -41,14 +43,7 @@ namespace EnglishToLearn.Api.Controllers
 
             try
             {
-                Deck deck = new()
-                {
-                    Name = createDeckDto.Name,
-                    Description = createDeckDto.Description,
-                    UserId = createDeckDto.UserId,
-                };
-
-                await _deckService.AddDeckAsync(deck);
+                ReturnDeckDto deck = await _deckService.AddDeckAsync(createDeckDto, User.FindFirstValue(ClaimTypes.NameIdentifier));
                 return CreatedAtAction(nameof(CreateDeck), new { id = deck.Id }, deck);
             }
             catch (ArgumentException ex)

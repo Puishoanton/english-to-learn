@@ -23,7 +23,6 @@ namespace EnglishToLearn.Application.Services
         public string GenerateAccessToken(User user)
         {   
 
-            Console.WriteLine("Generating access token for user: " + user.Id.ToString());
             Claim[] claims =
             [
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
