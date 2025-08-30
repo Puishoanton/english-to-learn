@@ -16,19 +16,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 builder.Services.AddCors(options =>
 {
-    string? frontendUrl = builder.Configuration["Client_Url"];
+    string? clientdUrl = builder.Configuration["Client_Url"];
     options.AddPolicy("AllowedOrigins",
         builder =>
         {
-            
-            builder.WithOrigins([frontendUrl!])
+            builder.WithOrigins(clientdUrl!)
                    .AllowAnyMethod()
                    .AllowAnyHeader();
         });
 });
+builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -36,22 +35,34 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
-    {
-        string? tokenSecretKey = builder.Configuration["Jwt:AccessTokenSecretKey"];
-        if (string.IsNullOrEmpty(tokenSecretKey))
-        {
-            throw new InvalidOperationException("JWT access token secret key is missing.");
-        }
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(tokenSecretKey))
-        };
-    });
+                 {
+                     string? tokenSecretKey = builder.Configuration["Jwt:AccessTokenSecretKey"];
+                     if (string.IsNullOrEmpty(tokenSecretKey))
+                     {
+                         throw new InvalidOperationException("JWT access token secret key is missing.");
+                     }
+                     options.TokenValidationParameters = new TokenValidationParameters
+                     {
+                         ValidateIssuer = false,
+                         ValidateAudience = false,
+                         ValidateLifetime = true,
+                         ValidateIssuerSigningKey = true,
+                         IssuerSigningKey = new SymmetricSecurityKey(
+                             Encoding.UTF8.GetBytes(tokenSecretKey))
+                     };
+                     options.Events = new JwtBearerEvents
+                     {
+                         OnMessageReceived = context =>
+                         {
+                             if (context.Request.Cookies.ContainsKey("accessToken"))
+                             {
+                                 context.Token = context.Request.Cookies["accessToken"];
+                             }
+                             return Task.CompletedTask;
+                         }
+                     };
+                 }
+                 );
 
 builder.Services.AddAuthorization();
 
@@ -61,24 +72,6 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "English To Learn API",
         Version = "v1"
-    });
-
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "Bearer {JWT}",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
-
-    c.AddSecurityDefinition("RefreshToken", new OpenApiSecurityScheme
-    {
-        Description = "Refresh token",
-        Name = "X-Refresh-Token",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "RefreshToken"
     });
 
     c.OperationFilter<AuthorizeCheckOperationFilter>();
@@ -111,6 +104,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowedOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

@@ -16,7 +16,7 @@ namespace EnglishToLearn.Application.Services
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IAuthTokenService _authTokenService = authTokenService;
 
-        public async Task<AuthResponseDto> GoogleLoginAsync(GoogleLoginDto googleLoginDto)
+        public async Task<AuthResponseDto> GoogleLoginAsync(GoogleLoginDto googleLoginDto, HttpResponse response)
         {
             GoogleJsonWebSignature.Payload payload;
 
@@ -42,20 +42,18 @@ namespace EnglishToLearn.Application.Services
                 await _userRepository.AddAsync(user);
             }
 
-            string accessToken = _authTokenService.GenerateAccessToken(user);
-            string refreshToken = _authTokenService.GenerateRefreshToken();
+            string refreshToken = _authTokenService.GenerateTokensAndSetCookies(user, response);
 
             user.RefreshToken = refreshToken;
             await _userRepository.UpdateAsync(user);
 
             return new AuthResponseDto
             {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken
+                Email = user.Email,
             };
         }
 
-        public async Task<AuthResponseDto> RefreshTokensAsync(string? refreshToken)
+        public async Task<AuthResponseDto> RefreshTokensAsync(string? refreshToken, HttpResponse response)
         {
             try
             {
@@ -78,20 +76,18 @@ namespace EnglishToLearn.Application.Services
                 throw new BadRequestException("Invalid refresh token.");
             }
 
-            string newAccessToken = _authTokenService.GenerateAccessToken(user);
-            string newRefreshToken = _authTokenService.GenerateRefreshToken();
+            string newRefreshToken = _authTokenService.GenerateTokensAndSetCookies(user, response);
 
             user.RefreshToken = newRefreshToken;
             await _userRepository.UpdateAsync(user);
 
             return new AuthResponseDto
             {
-                AccessToken = newAccessToken,
-                RefreshToken = newRefreshToken
+                Email = user.Email,
             };
         }
 
-        public async Task LogoutAsync(string refreshToken)
+        public async Task LogoutAsync(string refreshToken, HttpResponse response)
         {
             try
             {
@@ -108,6 +104,8 @@ namespace EnglishToLearn.Application.Services
                 user.RefreshToken = null;
                 await _userRepository.UpdateAsync(user);
             }
+
+            _authTokenService.DeleteCookies(response);
         }
 
     }

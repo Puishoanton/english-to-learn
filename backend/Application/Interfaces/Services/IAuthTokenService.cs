@@ -5,8 +5,8 @@ namespace EnglishToLearn.Application.Interfaces.Services
 {
     public interface IAuthTokenService
     {
-        string GenerateAccessToken(User user);
-        string GenerateRefreshToken();
+        string GenerateTokensAndSetCookies(User user, HttpResponse response);
         ClaimsPrincipal GetPrincipalFromToken(string? token);
+        void DeleteCookies(HttpResponse response);
     }
 }
