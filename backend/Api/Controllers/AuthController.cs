@@ -15,33 +15,31 @@ namespace EnglishToLearn.Api.Controllers
         [HttpPost("google-login")]
         public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginDto googleLoginDto)
         {
-            AuthResponseDto response = await _authService.GoogleLoginAsync(googleLoginDto);
-            return Ok(response);
+            AuthResponseDto response = await _authService.GoogleLoginAsync(googleLoginDto, Response);
+            return Ok(new { email = response.Email, message = "Login successful" });
         }
 
         [HttpPost("refresh-token")]
         [AllowAnonymous]
         public async Task<IActionResult> RefreshTokensAsync()
         {
-            string? refreshToken = Request.Headers["X-Refresh-Token"].FirstOrDefault();
+            string? refreshToken = Request.Cookies["refreshToken"];
 
-            AuthResponseDto response = await _authService.RefreshTokensAsync(refreshToken);
-            
-            return Ok(response);
+            AuthResponseDto response = await _authService.RefreshTokensAsync(refreshToken, Response);
+            return Ok(new { email = response.Email, message = "Refresh successful" });
         }
 
         [HttpPost("logout")]
-        [Authorize]
         public async Task<IActionResult> Logout()
         {
-            string? refreshToken = Request.Headers["X-Refresh-Token"].FirstOrDefault();
+            string? refreshToken = Request.Cookies["refreshToken"];
 
             if (string.IsNullOrEmpty(refreshToken))
             {
                 throw new UnauthorizedException("Refresh token is required.");
             }
-            await _authService.LogoutAsync(refreshToken);
-            return Ok();
+            await _authService.LogoutAsync(refreshToken, Response);
+            return Ok(new { message = "Logout successful" });
         }
     }
 }

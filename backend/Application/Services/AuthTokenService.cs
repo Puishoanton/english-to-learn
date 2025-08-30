@@ -20,37 +20,37 @@ namespace EnglishToLearn.Application.Services
                                    throw new InvalidOperationException("Jwt:RefreshTokenSecretKey not found."))
         );
 
-        public string GenerateAccessToken(User user)
-        {   
-
-            Claim[] claims =
+        public string GenerateTokensAndSetCookies(User user, HttpResponse response)
+        {
+            Claim[] accessClaims =
             [
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email!),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             ];
 
-            JwtSecurityToken token = new(
+            JwtSecurityToken accessToken = new(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
-                claims: claims,
+                claims: accessClaims,
                 expires: DateTime.UtcNow.AddMinutes(15),
                 signingCredentials: new SigningCredentials(_accessTokenSigningKey, SecurityAlgorithms.HmacSha256)
                 );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
-        public string GenerateRefreshToken()
-        {
-            JwtSecurityToken token = new(
+            JwtSecurityToken refreshToken = new(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 expires: DateTime.UtcNow.AddDays(30),
                 signingCredentials: new SigningCredentials(_refreshTokenSigningKey, SecurityAlgorithms.HmacSha256)
                 );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            string accessTokenString = new JwtSecurityTokenHandler().WriteToken(accessToken);
+            string refreshTokenString = new JwtSecurityTokenHandler().WriteToken(refreshToken);
+
+            SetCookie(response, nameof(accessToken), accessTokenString, TimeSpan.FromMinutes(15));
+            SetCookie(response, nameof(refreshToken), refreshTokenString, TimeSpan.FromDays(30));
+
+            return refreshTokenString;
         }
 
         public ClaimsPrincipal GetPrincipalFromToken(string? token)
@@ -78,6 +78,33 @@ namespace EnglishToLearn.Application.Services
             }
 
             return principal;
+        }
+
+        public void DeleteCookies(HttpResponse response)
+        {
+            CookieOptions cookieOptions = new()
+            {
+                HttpOnly = true,
+                Secure = true,
+                Expires = DateTime.UtcNow.AddDays(-1),
+                SameSite = SameSiteMode.Strict,
+                Path = "/"
+            };
+            response.Cookies.Append("accessToken", string.Empty, cookieOptions);
+            response.Cookies.Append("refreshToken", string.Empty, cookieOptions);
+        }
+
+        private static void SetCookie(HttpResponse response, string key, string value, TimeSpan maxAge)
+        {
+            CookieOptions cookieOptions = new()
+            {
+                HttpOnly = true,
+                Secure = true,
+                MaxAge = maxAge,
+                SameSite = SameSiteMode.Strict,
+                Path = "/"
+            };
+            response.Cookies.Append(key, value, cookieOptions);
         }
     }
 }
