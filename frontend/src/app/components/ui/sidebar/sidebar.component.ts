@@ -7,7 +7,12 @@ import { ButtonModule } from 'primeng/button';
 import { filter, Subscription } from 'rxjs';
 import { TabsModule } from 'primeng/tabs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { UserService } from '../../../services/user.service';
+import { environment } from '../../../../environments/environment';
+import { GoogleJwtPayload } from '../../../models/google/google-jwt-payload.interface';
+import { GoogleCredentialResponse } from '../../../models/google/google-credential-response.interface';
 
+declare const google: any;
 @Component({
   selector: 'app-sidebar',
   imports: [ButtonModule, NgClass, TabsModule, RouterModule],
@@ -23,6 +28,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
           </p-tab>}
       </p-tablist>
      </p-tabs>
+     <div id="google-btn"></div>
     </div>
   `,
   styleUrl: './sidebar.component.scss'
@@ -35,6 +41,7 @@ export class SidebarComponent implements OnInit {
   private destroyRef = inject(DestroyRef)
   private readonly navigationService = inject(NavigationService)
   private readonly router = inject(Router)
+  private readonly userService = inject(UserService)
 
   public ngOnInit(): void {
     this.menuItems = this.navigationService.getSidebarNavigationItems()
@@ -49,9 +56,40 @@ export class SidebarComponent implements OnInit {
           this.currentUrl = event.urlAfterRedirects
         }
       })
+
+    google.accounts.id.initialize({
+      client_id: environment.googleClientId,
+      callback: this.handleCredentialResponse.bind(this),
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("google-btn"),
+      {
+        type: "standart",
+        theme: "filled_black",
+        size: "medium",
+        text: "signin",
+        shape: "pill",
+      }
+    );
   }
 
   public toggleSidebar() {
     this.isClosed = !this.isClosed
+  }
+
+  public handleCredentialResponse(response: GoogleCredentialResponse) {
+    const { email } = this.decodeJwt(response.credential);
+
+    this.userService.googleLogin({
+      tokenId: response.credential,
+      email
+    })
+  }
+
+  private decodeJwt(token: string): GoogleJwtPayload {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(window.atob(base64));
   }
 }
