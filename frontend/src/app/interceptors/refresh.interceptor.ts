@@ -10,9 +10,9 @@ export const refreshInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401 && !isRefreshing) {
+      if (error.status === 401 && !isRefreshing && !req.url.includes('logout')) {
         isRefreshing = true;
-        
+
         return authService.refreshToken().pipe(
           switchMap(() => {
             isRefreshing = false
@@ -21,6 +21,7 @@ export const refreshInterceptor: HttpInterceptorFn = (req, next) => {
           }),
           catchError(() => {
             isRefreshing = false
+
             authService.logout().subscribe();
 
             return throwError(() => error);
