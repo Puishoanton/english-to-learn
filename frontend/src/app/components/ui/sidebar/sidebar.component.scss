@@ -6,6 +6,8 @@
   transition: width 0.3s ease;
   height: 100vh;
   border-right: $border-thin;
+  display: flex;
+  flex-direction: column;
 
   p-button {
     display: block;
@@ -40,6 +42,10 @@
       border-radius: $border-radius;
       background-color: $hover-color;
     }
+  }
+
+  #google-btn {
+    margin-top: auto;
   }
 }
 

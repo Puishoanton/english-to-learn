@@ -47,3 +47,4 @@ package-lock.json
 /backend/.vs/
 
 /backend/publish/
+frontend/src/environments/environment.ts
