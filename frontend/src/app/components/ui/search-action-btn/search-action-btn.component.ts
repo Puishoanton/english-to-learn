@@ -77,13 +77,15 @@ export class SearchActionBtnComponent implements OnInit {
   }
 
   private handleSave(createDeckDto: ICreateDeck) {
-    const { status, message } = this.deckService.createDeck(createDeckDto)
-    if (status === 200) {
-      this.modalService.close()
-      this.showToastService.showToast('success', message);
-      return
-    }
-    this.showToastService.showToast('error', message);
+    this.deckService.createDeck(createDeckDto).subscribe({
+      next: () => {
+        this.modalService.close()
+        this.showToastService.showToast('success', 'Success');
+      },
+      error: () => {
+        this.showToastService.showToast('error', 'Server error');
+      }
+    });
   }
 
   private handleCancel() {
