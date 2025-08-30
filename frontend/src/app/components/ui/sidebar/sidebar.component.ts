@@ -7,9 +7,8 @@ import { ButtonModule } from 'primeng/button';
 import { filter, Subscription } from 'rxjs';
 import { TabsModule } from 'primeng/tabs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { UserService } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth.service';
 import { environment } from '../../../../environments/environment';
-import { GoogleJwtPayload } from '../../../models/google/google-jwt-payload.interface';
 import { GoogleCredentialResponse } from '../../../models/google/google-credential-response.interface';
 
 declare const google: any;
@@ -41,7 +40,7 @@ export class SidebarComponent implements OnInit {
   private destroyRef = inject(DestroyRef)
   private readonly navigationService = inject(NavigationService)
   private readonly router = inject(Router)
-  private readonly userService = inject(UserService)
+  private readonly authService = inject(AuthService)
 
   public ngOnInit(): void {
     this.menuItems = this.navigationService.getSidebarNavigationItems()
@@ -79,17 +78,8 @@ export class SidebarComponent implements OnInit {
   }
 
   public handleCredentialResponse(response: GoogleCredentialResponse) {
-    const { email } = this.decodeJwt(response.credential);
-
-    this.userService.googleLogin({
+    this.authService.googleLogin({
       tokenId: response.credential,
-      email
-    })
-  }
-
-  private decodeJwt(token: string): GoogleJwtPayload {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    return JSON.parse(window.atob(base64));
+    }).subscribe();
   }
 }
