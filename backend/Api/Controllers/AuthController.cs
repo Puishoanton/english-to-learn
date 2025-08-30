@@ -41,5 +41,12 @@ namespace EnglishToLearn.Api.Controllers
             await _authService.LogoutAsync(refreshToken, Response);
             return Ok(new { message = "Logout successful" });
         }
+
+        [Authorize]
+        [HttpGet("get-me")]
+        public IActionResult GetMe()
+        {
+            return Ok(new { message = "Logout successful" });
+        }
     }
 }
