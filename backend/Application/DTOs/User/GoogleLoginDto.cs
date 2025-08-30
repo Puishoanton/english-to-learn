@@ -6,7 +6,7 @@ namespace EnglishToLearn.Application.DTOs.User
     public class GoogleLoginDto
     {
         [Required]
-        [JsonPropertyName("idToken")]
-        public string? IdToken { get; set; }
+        [JsonPropertyName("tokenId")]
+        public string? TokenId { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace EnglishToLearn.Application.Services
 
             try
             {
-                payload = await GoogleJsonWebSignature.ValidateAsync(googleLoginDto.IdToken);
+                payload = await GoogleJsonWebSignature.ValidateAsync(googleLoginDto.TokenId);
             }
             catch (InvalidJwtException)
             {
