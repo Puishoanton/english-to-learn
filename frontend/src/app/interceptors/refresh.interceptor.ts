@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpInterceptorFn } from "@angular/common/http";
 import { inject } from "@angular/core";
 import { AuthService } from "../services/auth.service";
-import { catchError, switchMap, throwError } from "rxjs";
+import { catchError, of, switchMap, throwError } from "rxjs";
 
 let isRefreshing = false;
 
@@ -28,7 +28,7 @@ export const refreshInterceptor: HttpInterceptorFn = (req, next) => {
         )
       }
 
-      return [];
+      return throwError(()=> of(null));
     })
   );
 };

@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, effect, inject, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { IModalField } from '../../../models/modal-props.interface';
@@ -9,7 +9,9 @@ import { ICreateDeck } from '../../../models/words-to-learn';
 import { Toast } from 'primeng/toast';
 import { ShowToastService } from '../../../services/show-toast.service';
 import { debounceTime } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { AuthService } from '../../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-action-btn',
@@ -41,39 +43,40 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class SearchActionBtnComponent implements OnInit {
   private readonly modalService = inject(GlobalModalWindowService<ICreateDeck>)
   private readonly deckService = inject(DeckService)
+  private readonly authService = inject(AuthService)
   private readonly showToastService = inject(ShowToastService)
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router)
   public searchControl = new FormControl('');
-  public searchValue: string = '';
+  public searchValue = toSignal(
+    this.searchControl.valueChanges.pipe(debounceTime(700)),
+    { initialValue: '' }
+  );
 
   public ngOnInit(): void {
-    this.searchControl.valueChanges
-      .pipe(
-        debounceTime(700),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe(value => {
-        this.performSearch(value ?? '');
-      });
+    effect(() => {
+      this.performSearch()
+    });
   }
 
-  private performSearch(search: string) {
-    this.deckService.getDecks(search)
-  }
 
-  public addNew() {
-    console.log('Add new clicked!');
-  }
 
   public openCreateDeckModal(): void {
-    this.modalService.open(
-      FormModalComponent,
-      {
-        title: 'Create a new deck',
-        fields: this.getCreateDeckModalWindowFields(),
-        handleSave: (createDeckDto) => this.handleSave(createDeckDto),
-        handleCancel: () => this.handleCancel()
-      })
+    if (this.authService.isLoggedIn()) {
+      this.modalService.open(
+        FormModalComponent,
+        {
+          title: 'Create a new deck',
+          fields: this.getCreateDeckModalWindowFields(),
+          handleSave: (createDeckDto) => this.handleSave(createDeckDto),
+          handleCancel: () => this.handleCancel()
+        })
+    } else {
+      this.router.navigate([`/`]);
+    }
+  }
+
+  private performSearch() {
+    this.deckService.getDecks(this.searchValue() ?? '');
   }
 
   private handleSave(createDeckDto: ICreateDeck) {
