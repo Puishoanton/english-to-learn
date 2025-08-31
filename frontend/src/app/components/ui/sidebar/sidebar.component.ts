@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { NavigationService } from '../../../services/navigation.service';
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
@@ -8,13 +8,11 @@ import { filter, Subscription } from 'rxjs';
 import { TabsModule } from 'primeng/tabs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../../services/auth.service';
-import { environment } from '../../../../environments/environment';
-import { GoogleCredentialResponse } from '../../../models/google/google-credential-response.interface';
+import { GoogleLoginComponent } from "../google-login/google-login.component";
 
-declare const google: any;
 @Component({
   selector: 'app-sidebar',
-  imports: [ButtonModule, NgClass, TabsModule, RouterModule],
+  imports: [ButtonModule, NgClass, TabsModule, RouterModule, CommonModule, GoogleLoginComponent],
   template: `
     <div class="sidebar" [ngClass]="{'sidebar-closed': isClosed}">
      <p-button styleClass="p-button-sidebar-toggle" (onClick)="toggleSidebar()" [icon]="isClosed ? 'pi pi-chevron-left': 'pi pi-chevron-right'" ></p-button>
@@ -27,24 +25,34 @@ declare const google: any;
           </p-tab>}
       </p-tablist>
      </p-tabs>
-     <div id="google-btn"></div>
+     @if(authService.isLoggedIn() !== undefined) {
+      @if(authService.isLoggedIn()) {
+        <button class="logout" (click)="logoutHandler()" >
+          <i class="pi pi-sign-out" pButtonIcon></i>
+          <span>Logout</span>
+         </button>
+       } @else {
+        <app-google-login></app-google-login>
+      }
+     }
     </div>
   `,
   styleUrl: './sidebar.component.scss'
 })
 export class SidebarComponent implements OnInit {
+  private readonly navigationService = inject(NavigationService)
+  private readonly router = inject(Router)
+  public readonly authService = inject(AuthService)
+  private destroyRef = inject(DestroyRef)
+  private routerSubscription: Subscription | null = null;
   public isClosed = true
   public currentUrl: string = ""
   public menuItems: MenuItem[] = []
-  private routerSubscription: Subscription | null = null;
-  private destroyRef = inject(DestroyRef)
-  private readonly navigationService = inject(NavigationService)
-  private readonly router = inject(Router)
-  private readonly authService = inject(AuthService)
 
   public ngOnInit(): void {
     this.menuItems = this.navigationService.getSidebarNavigationItems()
     this.currentUrl = this.router.url
+
     this.routerSubscription = this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
@@ -56,30 +64,13 @@ export class SidebarComponent implements OnInit {
         }
       })
 
-    google.accounts.id.initialize({
-      client_id: environment.googleClientId,
-      callback: this.handleCredentialResponse.bind(this),
-    });
-
-    google.accounts.id.renderButton(
-      document.getElementById("google-btn"),
-      {
-        type: "standart",
-        theme: "filled_black",
-        size: "medium",
-        text: "signin",
-        shape: "pill",
-      }
-    );
   }
 
   public toggleSidebar() {
     this.isClosed = !this.isClosed
   }
 
-  public handleCredentialResponse(response: GoogleCredentialResponse) {
-    this.authService.googleLogin({
-      tokenId: response.credential,
-    }).subscribe();
+  public logoutHandler() {
+    this.authService.logout().subscribe();
   }
 }
