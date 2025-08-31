@@ -8,6 +8,7 @@
   border-right: $border-thin;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   p-button {
     display: block;
@@ -44,8 +45,34 @@
     }
   }
 
-  #google-btn {
+  .logout {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    
+    width: min-content;
+    height: 2.5rem;
+    
     margin-top: auto;
+    padding: 0.625rem;
+    
+    font-size: 1rem;
+    color: $text-color;
+    background-color: transparent;
+    
+    border: none;
+    border-radius: $border-radius;
+    
+    cursor: pointer;
+    transition: $transition-background;
+
+    span {
+      font-family: 'JetBrains', sans-serif;
+    }
+
+    &:hover {
+      background-color: $hover-color;
+    }
   }
 }
 
@@ -57,4 +84,11 @@
       display: none;
     }
   }
+
+  .logout {
+    span {
+      display: none;
+    }
+  }
+
 }

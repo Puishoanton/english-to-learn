@@ -10,7 +10,13 @@ export const refreshInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401 && !isRefreshing && !req.url.includes('logout')) {
+      if (
+        error.status === 401 &&
+        !isRefreshing &&
+        !req.url.includes('logout') &&
+        !req.url.includes('refresh-token') &&
+        !req.url.includes('get-me')
+      ) {
         isRefreshing = true;
 
         return authService.refreshToken().pipe(
@@ -19,17 +25,10 @@ export const refreshInterceptor: HttpInterceptorFn = (req, next) => {
 
             return next(req);
           }),
-          catchError(() => {
-            isRefreshing = false
-
-            authService.logout().subscribe();
-
-            return throwError(() => error);
-          })
         )
       }
 
-      return throwError(() => error);
+      return [];
     })
   );
 };
