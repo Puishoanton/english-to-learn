@@ -44,7 +44,6 @@ export class SidebarComponent implements OnInit {
   private readonly router = inject(Router)
   public readonly authService = inject(AuthService)
   private destroyRef = inject(DestroyRef)
-  private routerSubscription: Subscription | null = null;
   public isClosed = true
   public currentUrl: string = ""
   public menuItems: MenuItem[] = []
@@ -53,7 +52,7 @@ export class SidebarComponent implements OnInit {
     this.menuItems = this.navigationService.getSidebarNavigationItems()
     this.currentUrl = this.router.url
 
-    this.routerSubscription = this.router.events
+    this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
         takeUntilDestroyed(this.destroyRef)

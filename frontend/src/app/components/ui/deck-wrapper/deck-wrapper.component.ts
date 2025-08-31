@@ -1,43 +1,35 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { IDeck } from '../../../models/words-to-learn';
+import { Component, inject } from '@angular/core';
 import { DeckService } from '../../../services/words-to-learn/deck.service';
 import { DeckComponent } from '../deck/deck.component';
 import { AccordionModule } from 'primeng/accordion';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-deck-wrapper',
-  imports: [DeckComponent, AccordionModule],
+  imports: [DeckComponent, AccordionModule, CommonModule],
   exportAs: 'DeckWrapperComponent',
   template: `
     <div class="deck-wrapper">
-      @if(decks.length){
+      @if(this.deckService.decks().length) {
         <p>Decks:</p>
         <div class="decks">
-          @for (deck of decks; track deck.id){
+          @for (deck of deckService.decks(); track deck.id){
             <p-accordion class="deck-accordion">
-              <app-deck [deck]=" deck"></app-deck>
+              <app-deck [deck]="deck"></app-deck>
             </p-accordion>
           }
         </div>
       }
       @else {
       <div>
-        <p>Create new deck</p>
-        <button pButton type="button" label="Add New" icon="pi pi-plus" (click)="addNewDeck()"></button>
+        <p>You do not have any decks yet.</p>
+        <p>Create a new one!</p>
       </div>
       }
     </div>
   `,
   styleUrl: './deck-wrapper.component.scss'
 })
-export class DeckWrapperComponent implements OnInit {
-  public decks: IDeck[] = [];
-  private readonly deckService = inject(DeckService);
-
-
-  public addNewDeck(): void { }
-
-  public ngOnInit(): void {
-    this.decks = this.deckService.getDecks()
-  }
+export class DeckWrapperComponent {
+  public readonly deckService = inject(DeckService)
 }

@@ -1,10 +1,12 @@
+import { ICard } from "./card.interface";
+
 export interface IDeck {
   id: string;
   name: string;
   description?: string;
   createdAt: Date;
   updatedAt: Date;
-  wordsCount: number;
+  cards: ICard[];
   // isPublic: boolean;
   ownerId: string;
   // isFavorite: boolean;
