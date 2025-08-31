@@ -40,7 +40,7 @@ import { Router } from '@angular/router';
   `,
   styleUrl: './search-action-btn.component.scss'
 })
-export class SearchActionBtnComponent implements OnInit {
+export class SearchActionBtnComponent {
   private readonly modalService = inject(GlobalModalWindowService<ICreateDeck>)
   private readonly deckService = inject(DeckService)
   private readonly authService = inject(AuthService)
@@ -52,7 +52,7 @@ export class SearchActionBtnComponent implements OnInit {
     { initialValue: '' }
   );
 
-  public ngOnInit(): void {
+  constructor() {
     effect(() => {
       this.performSearch()
     });
