@@ -14,8 +14,7 @@ export const refreshInterceptor: HttpInterceptorFn = (req, next) => {
         error.status === 401 &&
         !isRefreshing &&
         !req.url.includes('logout') &&
-        !req.url.includes('refresh-token') &&
-        !req.url.includes('get-me')
+        !req.url.includes('refresh-token')
       ) {
         isRefreshing = true;
 

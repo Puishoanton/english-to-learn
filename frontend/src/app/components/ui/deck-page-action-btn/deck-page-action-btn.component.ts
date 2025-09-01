@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
+import { DeckService } from '../../../services/words-to-learn/deck.service';
 
 @Component({
   selector: 'app-deck-page-action-btn',
@@ -18,10 +19,12 @@ import { ButtonModule } from 'primeng/button';
 export class DeckPageActionBtn {
   private readonly router = inject(Router)
   private readonly location = inject(Location);
+  private readonly deckService = inject(DeckService);
   @Input() public deckId!: string;
 
   public goBack() {
     this.location.back();
+    this.deckService.getDecks().subscribe()
   };
 
   public study() {
