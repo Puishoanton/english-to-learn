@@ -31,7 +31,7 @@ import { GoogleLoginComponent } from "../google-login/google-login.component";
           <i class="pi pi-sign-out" pButtonIcon></i>
           <span>Logout</span>
          </button>
-       } @else {
+       } @else if(currentUrl !== '/') {
         <app-google-login></app-google-login>
       }
      }

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { GoogleCredentialResponse } from '../../../models/google/google-credential-response.interface';
@@ -16,7 +16,7 @@ export class GoogleLoginComponent implements AfterViewInit {
   private readonly authService = inject(AuthService)
 
   @ViewChild('googleBtn', { static: true }) public googleBtn!: ElementRef<HTMLDivElement>;
-
+  @Input({required: false}) public size?: string = "medium"
   public ngAfterViewInit(): void {
     google.accounts.id.initialize({
       client_id: environment.googleClientId,
@@ -33,7 +33,7 @@ export class GoogleLoginComponent implements AfterViewInit {
       {
         type: "standard",
         theme: "filled_black",
-        size: "medium",
+        size: this.size,
         text: "signin",
         shape: "pill",
       }
