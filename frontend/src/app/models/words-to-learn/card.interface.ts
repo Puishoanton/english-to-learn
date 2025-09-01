@@ -1,9 +1,9 @@
 export interface ICard { 
   id: string;
   word: string;
-  word_context: string
+  wordContext: string
   translation: string;
-  translation_context: string;
+  translationContext: string;
   createdAt: Date;
   updatedAt: Date;
   deckId: string;
@@ -12,16 +12,16 @@ export interface ICard {
 }
 export interface ICreateCard { 
   word: string;
-  word_context: string
+  wordContext: string
   translation: string;
-  translation_context: string;
+  translationContext: string;
   deckId: string;
 }
 
 export interface IEditCard { 
   word?: string;
-  word_context?: string
+  wordContext?: string
   translation?: string;
-  translation_context?: string;
+  translationContext?: string;
   deckId: string;
 }

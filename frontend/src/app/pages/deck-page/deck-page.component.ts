@@ -19,8 +19,8 @@ import { ShowToastService } from '../../services/show-toast.service';
   template: `
    <app-deck-page-action-btn [deckId]="deckId"></app-deck-page-action-btn>
    <div class="card-grid">
-    @for (card of cards; track card.id) {
-      <app-deck-card [card]="card"></app-deck-card>
+    @for (card of cardService.cards(); track card.id) {
+      <app-deck-card [card]="card" [deckId]="deckId"></app-deck-card>
     }
     <p-card class="add-card" (click)="openCreateCardModal()">
       <i class="pi pi-plus"></i>
@@ -32,21 +32,19 @@ import { ShowToastService } from '../../services/show-toast.service';
 export class DeckPageComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly route = inject(ActivatedRoute);
-  private readonly cardService = inject(CardService);
+  public readonly cardService = inject(CardService);
   private readonly modalService = inject(GlobalModalWindowService<ICreateCard>)
   private readonly showToastService = inject(ShowToastService)
 
-
   public deckId!: string;
-  public cards: (ICard & { flipped?: boolean })[] = [];
 
   public ngOnInit(): void {
     this.route.paramMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(params => {
         this.deckId = params.get('id') ?? '';
-        this.cards = this.cardService.getCards(this.deckId);
       })
+    this.cardService.getCards(this.deckId).pipe(takeUntilDestroyed(this.destroyRef)).subscribe()
   }
 
   public openCreateCardModal(): void {
@@ -61,13 +59,15 @@ export class DeckPageComponent implements OnInit {
   }
 
   private handleSave(createCardDto: ICreateCard) {
-    const { status, message } = this.cardService.createCard(createCardDto)
-    if (status === 200) {
-      this.modalService.close()
-      this.showToastService.showToast('success', message);
-      return
-    }
-    this.showToastService.showToast('error', message);
+    this.cardService.createCard(createCardDto, this.deckId).subscribe({
+      next: () => {
+        this.modalService.close()
+        this.showToastService.showToast('success', 'Success');
+      },
+      error: () => {
+        this.showToastService.showToast('error', 'Server error');
+      }
+    })
   }
 
   private handleCancel() {
@@ -77,9 +77,9 @@ export class DeckPageComponent implements OnInit {
   private getCreateCardModalWindowFields(): IModalField[] {
     return [
       { label: 'Word', value: 'word' },
-      { label: 'Word Context', value: 'word_context' },
+      { label: 'Word Context', value: 'wordContext' },
       { label: 'Translation', value: 'translation' },
-      { label: 'Translation context', value: 'translation_context' }
+      { label: 'Translation context', value: 'translationContext' }
     ]
   }
 }

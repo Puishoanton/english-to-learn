@@ -12,7 +12,7 @@ import { CardService } from '../../../services/words-to-learn/card.service';
     <p-card class="study-card">
       <div>
         <h2>{{ currentCard.word }}</h2>
-        <p>{{ currentCard.word_context }}</p>
+        <p>{{ currentCard.wordContext }}</p>
       </div>
 
       <div class="actions">

@@ -23,12 +23,12 @@ import { Toast } from 'primeng/toast';
      @if(card.flipped) {
        <ng-container >
           <h2>{{ card.translation }}</h2>
-          <p>{{ card.translation_context }}</p>
+          <p>{{ card.translationContext }}</p>
        </ng-container>
      }@else {
        <ng-container>
          <h2>{{ card.word }}</h2>
-         <p>{{ card.word_context }}</p>
+         <p>{{ card.wordContext }}</p>
        </ng-container>
      }
      <p-button icon="pi pi-pencil" class="edit-btn" (onClick)="openEditCardModal(); $event.stopPropagation()" />
@@ -44,6 +44,7 @@ export class DeckCardComponent {
   private readonly showToastService = inject(ShowToastService)
 
   @Input({ required: true }) public card!: ICard & { flipped?: boolean };
+  @Input({ required: true }) public deckId!: string
 
   public toggleFlip(card: ICard & { flipped?: boolean }): void {
     card.flipped = !card.flipped;
@@ -63,13 +64,15 @@ export class DeckCardComponent {
   }
 
   private handleSave(editCardDto: IEditCard) {
-    const { status, message } = this.cardService.editCard(this.card.id, editCardDto)
-    if (status === 200) {
-      this.modalService.close()
-      this.showToastService.showToast('success', message);
-      return
-    }
-    this.showToastService.showToast('error', message);
+    this.cardService.editCard(this.card.id, editCardDto,this.deckId).subscribe({
+      next: () => {
+        this.modalService.close()
+        this.showToastService.showToast('success', 'Edited');
+      },
+      error: () => {
+        this.showToastService.showToast('error', 'Server error');
+      }
+    })
   }
 
   private handleCancel() {
@@ -77,21 +80,23 @@ export class DeckCardComponent {
   }
 
   private handleDelete() {
-    const { status, message } = this.cardService.deleteCard(this.card.id)
-    if (status === 200) {
-      this.modalService.close()
-      this.showToastService.showToast('success', message);
-      return
-    }
-    this.showToastService.showToast('error', message);
+    this.cardService.deleteCard(this.card.id, this.deckId).subscribe({
+      next: () => {
+        this.modalService.close()
+        this.showToastService.showToast('success', 'Deleted');
+      },
+      error: () => {
+        this.showToastService.showToast('error', 'Server error');
+      }
+    })
   }
 
   private getEditCardModalWindowFields(): IModalField[] {
     return [
       { label: 'Word', value: 'word', initialValue: this.card.word },
-      { label: 'Word Context', value: 'word_context', initialValue: this.card.word_context },
+      { label: 'Word Context', value: 'wordContext', initialValue: this.card.wordContext },
       { label: 'Translation', value: 'translation', initialValue: this.card.translation },
-      { label: 'Translation context', value: 'translation_context', initialValue: this.card.translation_context }
+      { label: 'Translation context', value: 'translationContext', initialValue: this.card.translationContext }
     ]
   }
 }

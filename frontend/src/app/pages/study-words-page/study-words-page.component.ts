@@ -33,12 +33,12 @@ export class StudyWordsPageComponent implements OnInit {
   public currentCardIndex: number = 0
 
   public get currentCard(): ICard | null {
-    return this.cards[this.currentCardIndex] || null;
+    return this.cardService.cards()[this.currentCardIndex] || null;
   }
 
   public ngOnInit(): void {
     this.deckId = this.route.snapshot.paramMap.get('id')!
-    this.cards = this.cardService.getCards(this.deckId);
+    this.cards = this.cardService.cards();
     this.shuffleCards();
   }
 
