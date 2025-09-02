@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from "../ui/sidebar/sidebar.component";
 import { NavigationService } from '../../services/navigation.service';
-import { filter, Subscription } from 'rxjs';
+import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -23,13 +23,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class LayoutComponent implements OnInit {
   public header: string = 'English to learn'
-  private routerSubscription: Subscription | null = null;
   private destroyRef = inject(DestroyRef)
   private readonly navigationService = inject(NavigationService)
   private readonly router = inject(Router)
 
   public ngOnInit(): void {
-    this.routerSubscription = this.router.events
+    this.router.events
       .pipe(
         filter(e => e instanceof NavigationEnd),
         takeUntilDestroyed(this.destroyRef)
