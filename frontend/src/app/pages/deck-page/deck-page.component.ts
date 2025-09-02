@@ -17,7 +17,7 @@ import { ShowToastService } from '../../services/show-toast.service';
   selector: 'app-deck-page',
   imports: [CardModule, DeckPageActionBtn, ButtonModule, DialogModule, DeckCardComponent, DeckPageActionBtn],
   template: `
-   <app-deck-page-action-btn [deckId]="deckId"></app-deck-page-action-btn>
+   <app-deck-page-action-btn [deckId]="deckId" [blockStudyCards]="!!cardService.cards().length"></app-deck-page-action-btn>
    <div class="card-grid">
     @for (card of cardService.cards(); track card.id) {
       <app-deck-card [card]="card" [deckId]="deckId"></app-deck-card>

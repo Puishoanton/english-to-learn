@@ -20,6 +20,8 @@
 
     transition: $transition-btn;
 
+    cursor: pointer;
+
     ::ng-deep button {
       display: flex;
       align-items: center;
