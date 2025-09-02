@@ -15,9 +15,11 @@ import { FormModalComponent } from '../modals/form-modal/form-modal.component';
   exportAs: 'deckPageACtionBtn',
   template: `
     <div class="deck-page-action-btn">
-      <p-button type="button" label="Study words" icon="pi pi-book" class="action-btn" (click)="study()"></p-button>
+      <p-button type="button" label="Edit deck" icon="pi pi-pencil" class="action-btn" (click)="openEditDeckModal()"></p-button>
       <div class="buttons-container">
-        <p-button type="button" label="Edit deck" icon="pi pi-pencil" class="action-btn" (click)="openEditDeckModal()"></p-button>
+        @if(blockStudyCards){
+          <p-button type="button" label="Study words" icon="pi pi-book" class="action-btn" (click)="study()"></p-button>
+        }
         <p-button type="button" label="Go back" icon="pi pi-chevron-left" class="action-btn" (click)="goBack()"></p-button>
       </div>
     </div>
@@ -31,6 +33,7 @@ export class DeckPageActionBtn {
   private readonly modalService = inject(GlobalModalWindowService<IEditDeck>)
   private readonly showToastService = inject(ShowToastService)
   @Input() public deckId!: string;
+  @Input() public blockStudyCards: boolean = false;
 
   public goBack() {
     this.location.back();
