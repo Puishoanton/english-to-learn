@@ -29,7 +29,7 @@ import { IModalField } from '../../../../models/modal-props.interface';
       }
       <div class="form-actions">
         @if(handleDelete) {
-          <p-button class="btn-delete action-btn" label="Delete a card" (click)="onDelete()" />
+          <p-button class="btn-delete action-btn" label="Delete" (click)="onDelete()" />
         }
         <p-button class="btn-save action-btn" label="Save" (click)="onSave()" />
       </div>

@@ -1,5 +1,5 @@
 import { DestroyRef, inject, Injectable, signal } from '@angular/core';
-import { ICreateDeck, IDeck } from '../../models/words-to-learn';
+import { ICreateDeck, IDeck, IEditDeck } from '../../models/words-to-learn';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Observable, of, switchMap, tap } from 'rxjs';
@@ -43,7 +43,7 @@ export class DeckService {
   }
 
   public removeDeck(id: string): Observable<void> {
-    return this.httpClient.delete<void>(`${this.apiUrl}/decks/${id}`)
+    return this.httpClient.delete<void>(`${this.apiUrl}/decks/${id}`).pipe(tap(() => this.getDecks().subscribe()))
   }
 
   public getDecks(search?: string): Observable<IDeck[]> {
@@ -52,5 +52,10 @@ export class DeckService {
         this.decks.set(res)
       })
     )
+  }
+
+  public editDeck(deckId: string, editDeckDto: IEditDeck) {
+    return this.httpClient.put<void>(`${this.apiUrl}/decks/${deckId}`, editDeckDto)
+      .pipe(tap(() => this.getDecks(deckId).subscribe()))
   }
 }
