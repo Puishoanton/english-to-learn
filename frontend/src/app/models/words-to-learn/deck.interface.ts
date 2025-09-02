@@ -13,7 +13,7 @@ export interface IDeck {
   // tags?: string[];
   // coverImageUrl?: string; 
   // lastAccessed?: Date; 
- }
+}
 
 export interface ICreateDeck {
   name: string;
@@ -24,4 +24,9 @@ export interface ICreateDeck {
   // tags?: string[];
   // coverImageUrl?: string; 
   // lastAccessed?: Date; 
- }
+}
+
+export interface IEditDeck {
+  name?: string;
+  description?: string;
+}
