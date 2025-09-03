@@ -47,5 +47,11 @@ namespace EnglishToLearn.Api.Controllers
             return Ok();
         }
 
+        [HttpPatch("{id}/progress")]
+        public async Task<IActionResult> ChangeCardProgress(Guid id, [FromBody] ChangeCardProgressDto progress)
+        {   
+            await _cardService.ChangeCardProgressAsync(id, progress.Progress);
+            return Ok();
+        }
     }
 }

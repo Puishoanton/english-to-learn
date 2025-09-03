@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace EnglishToLearn.Application.DTOs.Card
@@ -11,10 +10,10 @@ namespace EnglishToLearn.Application.DTOs.Card
         [JsonPropertyName("translation")]
         public string? Translation { get; set; }
 
-        [JsonPropertyName("word_context")]
+        [JsonPropertyName("wordContext")]
         public string? WordContext { get; set; }
 
-        [JsonPropertyName("translation_context")]
+        [JsonPropertyName("translationContext")]
         public string? TranslationContext { get; set; }
     }
 }

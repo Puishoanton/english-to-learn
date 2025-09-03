@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using EnglishToLearn.Api.Swagger;
 using EnglishToLearn.Application.Interfaces.Repositories;
 using EnglishToLearn.Application.Interfaces.Services;
@@ -32,7 +33,11 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

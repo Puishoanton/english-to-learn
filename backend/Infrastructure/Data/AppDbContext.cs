@@ -45,5 +45,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Card>()
            .Property(card => card.TranslationContext)
            .IsRequired();
+        modelBuilder.Entity<Card>()
+            .ToTable(t => t.HasCheckConstraint("CK_Card_Progress_Range", "\"Progress\" BETWEEN -10 AND 10"));
     }
 }
