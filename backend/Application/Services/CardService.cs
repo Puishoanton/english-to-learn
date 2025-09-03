@@ -1,5 +1,6 @@
 using AutoMapper;
 using EnglishToLearn.Application.DTOs.Card;
+using EnglishToLearn.Application.Enums;
 using EnglishToLearn.Application.Exceptions;
 using EnglishToLearn.Application.Interfaces.Repositories;
 using EnglishToLearn.Application.Interfaces.Services;
@@ -30,9 +31,9 @@ namespace EnglishToLearn.Application.Services
         }
 
         public async Task<ReturnCardDto> AddCardAsync(CreateCardDto createCardDto, string deckId)
-        {   
+        {
             Card card = _mapper.Map<Card>(createCardDto);
-            
+
             card.DeckId = Guid.Parse(deckId);
             card.CreatedAt = DateTimeOffset.UtcNow;
             card.UpdatedAt = DateTimeOffset.UtcNow;
@@ -62,6 +63,29 @@ namespace EnglishToLearn.Application.Services
             {
                 throw new NotFoundException($"Card with ID {id} not found.");
             }
+        }
+
+        public async Task ChangeCardProgressAsync(Guid id, CardProgressAction progress)
+        {
+            Card? updatedCard = await _cardRepository.GetByIdAsync(id);
+            if (updatedCard == null)
+            {
+                throw new NotFoundException($"Card with ID {id} not found.");
+            }
+
+            switch (progress)
+            {
+                case CardProgressAction.Increase:
+                    updatedCard.Progress = Math.Min(updatedCard.Progress + 1, 10);
+                    break;
+                case CardProgressAction.Decrease:
+                    updatedCard.Progress = Math.Max(updatedCard.Progress - 1, -10);
+                    break;
+
+            }
+           
+            updatedCard.UpdatedAt = DateTimeOffset.UtcNow;
+            await _cardRepository.UpdateAsync(updatedCard);
         }
     }
 }

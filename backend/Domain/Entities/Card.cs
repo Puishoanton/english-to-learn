@@ -20,6 +20,9 @@ namespace EnglishToLearn.Domain.Entities
 
         public Guid DeckId { get; set; }
         public Deck? Deck{ get; set; }
+        
+        [Range(-10, 10)]
+        public int Progress { get; set; } = 0;
 
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset UpdatedAt { get; set; }

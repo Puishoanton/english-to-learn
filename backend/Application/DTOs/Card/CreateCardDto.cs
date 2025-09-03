@@ -14,11 +14,11 @@ namespace EnglishToLearn.Application.DTOs.Card
         public string Translation { get; set; } = string.Empty;
 
         [Required]
-        [JsonPropertyName("word_context")]
+        [JsonPropertyName("wordContext")]
         public string WordContext { get; set; } = string.Empty;
 
         [Required]
-        [JsonPropertyName("translation_context")]
+        [JsonPropertyName("translationContext")]
         public string TranslationContext { get; set; } = string.Empty;
     }
 }

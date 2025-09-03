@@ -1,5 +1,5 @@
 ﻿using EnglishToLearn.Application.DTOs.Card;
-using EnglishToLearn.Domain.Entities;
+using EnglishToLearn.Application.Enums;
 
 namespace EnglishToLearn.Application.Interfaces.Services
 {
@@ -10,5 +10,6 @@ namespace EnglishToLearn.Application.Interfaces.Services
         Task<ReturnCardDto> AddCardAsync(CreateCardDto createCardDto, string deckId);
         Task UpdateCardAsync(Guid id, UpdateCardDto updateCardDto);
         Task DeleteCardAsync(Guid id);
+        Task ChangeCardProgressAsync(Guid id, CardProgressAction CardProgressAction);
     }
 }
