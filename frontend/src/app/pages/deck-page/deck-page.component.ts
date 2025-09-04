@@ -77,9 +77,9 @@ export class DeckPageComponent implements OnInit {
   private getCreateCardModalWindowFields(): IModalField[] {
     return [
       { label: 'Word', value: 'word' },
-      { label: 'Word Context', value: 'word_context' },
+      { label: 'Word Context', value: 'wordContext' },
       { label: 'Translation', value: 'translation' },
-      { label: 'Translation context', value: 'translation_context' }
+      { label: 'Translation context', value: 'translationContext' }
     ]
   }
 }

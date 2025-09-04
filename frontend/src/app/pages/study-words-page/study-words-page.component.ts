@@ -12,7 +12,7 @@ import { Location } from '@angular/common';
   imports: [ButtonModule, CardModule, StudyCardComponent],
   template: `
   @if(currentCard) {
-    <app-study-card [cards]="cards" [currentCard]="currentCard" [currentCardIndex]="currentCardIndex"></app-study-card>
+    <app-study-card [cards]="cards" [currentCard]="currentCard" [currentCardIndex]="currentCardIndex" [deckId]="deckId"></app-study-card>
   }@else {
     <div class="no-cards">
       <p >All cards studied!</p>
