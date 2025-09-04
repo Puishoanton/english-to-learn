@@ -23,10 +23,10 @@ import { RouterLink } from '@angular/router';
       </ng-template>
     </p-accordion-header>
   </div>
-  @for (card of deck.cards; track card.id){
-  <p-accordion-content>
+  @for (card of deck.cards.slice(0,3); track card.id){
+  <p-accordion-content >
     <p>{{ card.word }}</p>
-  </p-accordion-content>
+    </p-accordion-content>
   }
 </p-accordion-panel>
   `,

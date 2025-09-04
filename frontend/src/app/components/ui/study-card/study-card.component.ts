@@ -26,7 +26,7 @@ import { CardService } from '../../../services/words-to-learn/card.service';
 export class StudyCardComponent {
   private readonly cardService = inject(CardService);
 
-  public deckId!: string
+  @Input({ required: true }) public deckId!: string
   @Input() public currentCard!: ICard & { study_again?: boolean }
   @Input() public cards!: (ICard & { study_again?: boolean })[]
   @Input() public currentCardIndex!: number
@@ -37,7 +37,7 @@ export class StudyCardComponent {
     const card = this.cards[this.currentCardIndex];
 
     if (!card.study_again) {
-      this.changeWordProgress(card.id, isKnown ? 'increase' : 'decrease');
+      this.changeWordProgress(card.id, isKnown ? 'Increase' : 'Decrease');
     }
 
     if (!isKnown) {
@@ -51,8 +51,7 @@ export class StudyCardComponent {
     }
   }
 
-  private changeWordProgress(cardId: string, changeValue: 'decrease' | 'increase') {
-    this.cardService.changeProgress(cardId, changeValue)
+  private changeWordProgress(cardId: string, changeValue: 'Decrease' | 'Increase',) {
+    this.cardService.changeProgress(cardId, changeValue, this.deckId).subscribe()
   }
-
 }

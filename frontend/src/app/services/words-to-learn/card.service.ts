@@ -38,8 +38,8 @@ export class CardService {
       .pipe(tap(() => this.getCards(deckId).subscribe()))
   }
 
-  public changeProgress(cardId: string, changeValue: 'decrease' | 'increase') {
+  public changeProgress(cardId: string, changeValue: 'Decrease' | 'Increase', deckId: string) {
     console.log(cardId, changeValue);
-    return { status: 200, }
+    return this.httpClient.patch<void>(`${this.apiUrl}/decks/${deckId}/cards/${cardId}/progress`, { progress: changeValue })
   }
 }
