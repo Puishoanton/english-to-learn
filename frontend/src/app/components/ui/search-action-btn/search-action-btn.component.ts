@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { IModalField } from '../../../models/modal-props.interface';
@@ -76,7 +76,7 @@ export class SearchActionBtnComponent {
   }
 
   private performSearch() {
-    this.deckService.getDecks(this.searchValue() ?? '');
+    this.deckService.getDecks(this.searchValue() ?? '').subscribe();
   }
 
   private handleSave(createDeckDto: ICreateDeck) {
