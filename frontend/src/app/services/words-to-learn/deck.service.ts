@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { Observable, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { IPageResult } from '../../models/words-to-learn/page-result.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -46,10 +47,10 @@ export class DeckService {
     return this.httpClient.delete<void>(`${this.apiUrl}/decks/${id}`).pipe(tap(() => this.getDecks().subscribe()))
   }
 
-  public getDecks(search?: string): Observable<IDeck[]> {
-    return this.httpClient.get<IDeck[]>(`${this.apiUrl}/decks`).pipe(
+  public getDecks(search: string = ''): Observable<IPageResult<IDeck[]>> {
+    return this.httpClient.get<IPageResult<IDeck[]>>(`${this.apiUrl}/decks?search=${search}&page=1&skip=100`).pipe(
       tap((res) => {
-        this.decks.set(res)
+        this.decks.set(res.items)
       })
     )
   }
