@@ -21,9 +21,9 @@ namespace EnglishToLearn.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllDecks()
+        public async Task<IActionResult> GetAllDecks([FromQuery] string? search, [FromQuery] int page, [FromQuery] int skip)
         {
-            ICollection<ReturnDeckDto> decks = await _deckService.GetAllDecks();
+            PageResultDto<ReturnDeckDto> decks = await _deckService.GetAllDecks(search, page, skip);
             return Ok(decks);
         }
 

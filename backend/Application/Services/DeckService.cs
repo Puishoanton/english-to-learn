@@ -28,10 +28,19 @@ namespace EnglishToLearn.Application.Services
             return _mapper.Map<ReturnDeckDto>(deck);
         }
 
-        public async Task<ICollection<ReturnDeckDto>> GetAllDecks()
+        public async Task<PageResultDto<ReturnDeckDto>> GetAllDecks(string? search, int page = 1, int skip = 100)
         {
-            ICollection<Deck> decks = await _deckRepository.GetAllWithCardsAsync();
-            return _mapper.Map<ICollection<ReturnDeckDto>>(decks);
+            ICollection<Deck> decks = await _deckRepository.GetAllWithCardsAsync(search, page, skip);
+            int totalCount = await _deckRepository.GetCardsTotalCountAsync();
+
+            return new PageResultDto<ReturnDeckDto>
+            {
+                CurrentPage = page,
+                Skip = skip,
+                TotalCount = totalCount,
+                Items = _mapper.Map<ICollection<ReturnDeckDto>>(decks)
+            };
+
         }
 
         public async Task<ReturnDeckDto> AddDeckAsync(CreateDeckDto createDeckDto, string? userId)

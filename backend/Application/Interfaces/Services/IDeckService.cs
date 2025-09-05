@@ -4,7 +4,7 @@ namespace EnglishToLearn.Application.Interfaces.Services
     public interface IDeckService
     {
         Task<ReturnDeckDto?> GetDeckByIdAsync(Guid id);
-        Task<ICollection<ReturnDeckDto>> GetAllDecks();
+        Task<PageResultDto<ReturnDeckDto>> GetAllDecks(string? search, int page, int skip);
         Task<ReturnDeckDto> AddDeckAsync(CreateDeckDto createDeckDto, string? userId);
         Task UpdateDeckAsync(Guid id, UpdateDeckDto updateDeckDto);
         Task DeleteDeckAsync(Guid id);

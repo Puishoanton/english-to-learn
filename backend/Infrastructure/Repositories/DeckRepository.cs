@@ -16,11 +16,19 @@ namespace EnglishToLearn.Infrastructure.Repositories
                 .FirstOrDefaultAsync(deck => deck.Id == id);
         }
 
-        public async Task<ICollection<Deck>> GetAllWithCardsAsync()
+        public async Task<ICollection<Deck>> GetAllWithCardsAsync(string? search, int page, int skip)
         {
             return await _context.Decks
-                .Include(deck => deck.Cards)
-                .ToListAsync();
+               .Include(deck => deck.Cards)
+               .Where(deck => string.IsNullOrEmpty(search) || EF.Functions.ILike(deck.Name, $"%{search}%"))
+               .Skip((page - 1) * skip)
+               .Take(skip)
+               .ToListAsync();
+        }
+
+        public async Task<int> GetCardsTotalCountAsync()
+        {
+            return await _context.Decks.CountAsync();
         }
 
     }
