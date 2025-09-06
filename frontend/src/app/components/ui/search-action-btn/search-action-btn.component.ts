@@ -49,12 +49,14 @@ export class SearchActionBtnComponent {
   public searchControl = new FormControl('');
   public searchValue = toSignal(
     this.searchControl.valueChanges.pipe(debounceTime(700)),
-    { initialValue: '' }
+    { initialValue: null }
   );
 
   constructor() {
     effect(() => {
-      this.performSearch()
+      if (this.searchValue() !== null) {
+        this.performSearch()
+      }
     });
   }
 
