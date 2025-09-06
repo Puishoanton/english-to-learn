@@ -9,6 +9,7 @@ import { TabsModule } from 'primeng/tabs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../../services/auth.service';
 import { GoogleLoginComponent } from "../google-login/google-login.component";
+import { ShowToastService } from '../../../services/show-toast.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -43,6 +44,7 @@ export class SidebarComponent implements OnInit {
   private readonly navigationService = inject(NavigationService)
   private readonly router = inject(Router)
   public readonly authService = inject(AuthService)
+  private readonly showToastService = inject(ShowToastService)
   private destroyRef = inject(DestroyRef)
   public isClosed = true
   public currentUrl: string = ""
@@ -70,6 +72,13 @@ export class SidebarComponent implements OnInit {
   }
 
   public logoutHandler() {
-    this.authService.logout().subscribe();
+    this.authService.logout().subscribe({
+      next: ({ message }) => {
+        this.showToastService.showToast('success', message);
+      },
+      error: () => {
+        this.showToastService.showToast('error', 'Server error');
+      }
+    });
   }
 }

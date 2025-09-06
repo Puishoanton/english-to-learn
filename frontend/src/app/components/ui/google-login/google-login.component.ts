@@ -1,7 +1,9 @@
 import { AfterViewInit, Component, ElementRef, inject, Input, ViewChild } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { AuthService } from '../../../services/auth.service';
 import { GoogleCredentialResponse } from '../../../models/google/google-credential-response.interface';
+import { AuthService } from '../../../services/auth.service';
+import { ShowToastService } from '../../../services/show-toast.service';
+import { IAuthResponse } from '../../../models/auth/auth-response.interface';
 
 declare const google: any;
 
@@ -14,16 +16,24 @@ declare const google: any;
 })
 export class GoogleLoginComponent implements AfterViewInit {
   private readonly authService = inject(AuthService)
+  private readonly showToastService = inject(ShowToastService)
 
   @ViewChild('googleBtn', { static: true }) public googleBtn!: ElementRef<HTMLDivElement>;
-  @Input({required: false}) public size?: string = "medium"
+  @Input({ required: false }) public size?: string = "medium"
   public ngAfterViewInit(): void {
     google.accounts.id.initialize({
       client_id: environment.googleClientId,
       callback: (response: GoogleCredentialResponse) => {
         this.authService.googleLogin({
           tokenId: response.credential,
-        }).subscribe();
+        }).subscribe({
+          next: ({message}) => { 
+            this.showToastService.showToast('success', message);
+          },
+          error: () => { 
+            this.showToastService.showToast('error', 'Server error');
+          }
+        });
       }
     })
 
