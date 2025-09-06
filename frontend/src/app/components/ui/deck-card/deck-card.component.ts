@@ -8,11 +8,10 @@ import { GlobalModalWindowService } from '../../../services/global-modal-window.
 import { FormModalComponent } from '../modals/form-modal/form-modal.component';
 import { ShowToastService } from '../../../services/show-toast.service';
 import { CardService } from '../../../services/words-to-learn/card.service';
-import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-deck-card',
-  imports: [CardModule, NgClass, Button, Toast],
+  imports: [CardModule, NgClass, Button],
   exportAs: 'deckCard',
   template: `
     <p-card 
@@ -33,7 +32,6 @@ import { Toast } from 'primeng/toast';
      }
      <p-button icon="pi pi-pencil" class="edit-btn" (onClick)="openEditCardModal(); $event.stopPropagation()" />
     </p-card>
-    <p-toast/>
 
   `,
   styleUrl: './deck-card.component.scss'

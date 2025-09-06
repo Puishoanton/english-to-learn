@@ -88,8 +88,8 @@ textarea {
 
 ::ng-deep .toast {
   width: 12rem;
-  border: $border !important;
-  border-radius: $border-radius !important;
+  border: $border;
+  border-radius: $border-radius;
   overflow: hidden;
   padding: 0.25rem 0.5rem;
 
@@ -103,7 +103,7 @@ textarea {
 
       div:last-child {
         font-size: 1rem;
-        color: $toast-text-color !important;
+        color: $toast-text-color;
 
       }
     }
@@ -111,19 +111,19 @@ textarea {
 }
 
 ::ng-deep .success-toast {
-  background-color: $toast-success-background !important;
-  border-color: $success-color !important;
+  background-color: $toast-success-background;
+  border-color: $success-color;
 
   ::ng-deep .p-toast-message-content {
-    color: $toast-success-color !important;
+    color: $toast-success-color;
   }
 }
 
 ::ng-deep .error-toast {
-  background-color: $toast-error-background !important;
-  border-color: $danger-color !important;
+  background-color: $toast-error-background;
+  border-color: $danger-color;
 
   ::ng-deep .p-toast-message-content {
-    color: $toast-error-color !important;
+    color: $toast-error-color;
   }
 }
