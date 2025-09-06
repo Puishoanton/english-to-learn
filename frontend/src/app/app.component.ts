@@ -6,13 +6,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ISeoMetaTags } from './models/seo-meta-tags.interface';
 import { GlobalModalWindowComponent } from './components/ui/modals/global-modal-window/global-modal-window.component';
 import { AuthService } from './services/auth.service';
+import { Toast } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, GlobalModalWindowComponent],
+  imports: [RouterOutlet, GlobalModalWindowComponent, Toast],
   template: `
     <router-outlet></router-outlet>
     <app-global-modal-window></app-global-modal-window>
+    <p-toast/>
   `
   ,
 })
@@ -26,22 +28,20 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     this.router.events
-    .pipe(
-      filter(event => event instanceof NavigationEnd),
-      takeUntilDestroyed(this.destroyRef)
-    )
-    .subscribe(() => {
-      let root = this.route.root;
-      while (root.firstChild) {
-        root = root.firstChild
-      }
-      
-      const { title, description } = root.snapshot.data as ISeoMetaTags
-      
-      if (title && description) {
-        this.seoService.updateMetaTags(title, description)
-      }
-    })
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => {
+        let root = this.route.root;
+        while (root.firstChild) {
+          root = root.firstChild
+        }
+        const { title, description } = root.snapshot.data as ISeoMetaTags
+        if (title && description) {
+          this.seoService.updateMetaTags(title, description)
+        }
+      })
     this.authService.getMe().subscribe();
   }
 }

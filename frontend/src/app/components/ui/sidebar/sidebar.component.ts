@@ -80,5 +80,6 @@ export class SidebarComponent implements OnInit {
         this.showToastService.showToast('error', 'Server error');
       }
     });
+    this.router.navigate(['/'])
   }
 }

@@ -6,7 +6,6 @@ import { GlobalModalWindowService } from '../../../services/global-modal-window.
 import { FormModalComponent } from '../modals/form-modal/form-modal.component';
 import { DeckService } from '../../../services/words-to-learn/deck.service';
 import { ICreateDeck } from '../../../models/words-to-learn';
-import { Toast } from 'primeng/toast';
 import { ShowToastService } from '../../../services/show-toast.service';
 import { debounceTime } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -15,7 +14,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-action-btn',
-  imports: [ReactiveFormsModule, ButtonModule, Toast],
+  imports: [ReactiveFormsModule, ButtonModule],
   exportAs: 'searchActionBtn',
   template: `
   <div class="search-add-new">
@@ -35,7 +34,6 @@ import { Router } from '@angular/router';
       (click)="openCreateDeckModal()"
     >
     </p-button>
-    <p-toast/>
   </div>
   `,
   styleUrl: './search-action-btn.component.scss'
