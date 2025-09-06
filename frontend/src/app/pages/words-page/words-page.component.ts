@@ -13,6 +13,13 @@ import { SearchActionBtnComponent } from '../../components/ui/search-action-btn/
     <app-search-action-btn></app-search-action-btn>
     <app-deck-wrapper></app-deck-wrapper>
   `,
+  styles: `
+  :host {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+  `
 })
 export class WordsPageComponent {
 }
