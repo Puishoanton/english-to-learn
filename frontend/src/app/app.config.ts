@@ -6,6 +6,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { MessageService } from 'primeng/api';
 import { credentialsInterceptor } from './interceptors/credentials.interceptor';
 import { refreshInterceptor } from './interceptors/refresh.interceptor';
+import { loaderInterceptor } from './interceptors/loader.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,6 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(
       withInterceptors([
+        loaderInterceptor,
         credentialsInterceptor,
         refreshInterceptor
       ])

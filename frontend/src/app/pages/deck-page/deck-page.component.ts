@@ -12,20 +12,32 @@ import { DeckCardComponent } from '../../components/ui/deck-card/deck-card.compo
 import { GlobalModalWindowService } from '../../services/global-modal-window.service';
 import { FormModalComponent } from '../../components/ui/modals/form-modal/form-modal.component';
 import { ShowToastService } from '../../services/show-toast.service';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { LoaderService } from '../../services/loader.service';
 
 @Component({
   selector: 'app-deck-page',
-  imports: [CardModule, DeckPageActionBtn, ButtonModule, DialogModule, DeckCardComponent, DeckPageActionBtn],
+  imports: [CardModule, DeckPageActionBtn, ButtonModule, DialogModule, DeckCardComponent, DeckPageActionBtn, ProgressSpinnerModule],
   template: `
    <app-deck-page-action-btn [deckId]="deckId" [blockStudyCards]="!!cardService.cards().length"></app-deck-page-action-btn>
-   <div class="card-grid">
-    @for (card of cardService.cards(); track card.id) {
-      <app-deck-card [card]="card" [deckId]="deckId"></app-deck-card>
+   @if(loaderService.isLoading()) {
+      <div class="spinner">
+        <p-progressSpinner 
+          strokeWidth="4"
+          animationDuration=".7s"
+        />
+      </div>
     }
-    <p-card class="add-card" (click)="openCreateCardModal()">
-      <i class="pi pi-plus"></i>
-    </p-card>
-   </div>
+    @else{
+      <div class="card-grid">
+       @for (card of cardService.cards(); track card.id) {
+         <app-deck-card [card]="card" [deckId]="deckId"></app-deck-card>
+       }
+       <p-card class="add-card" (click)="openCreateCardModal()">
+         <i class="pi pi-plus"></i>
+       </p-card>
+      </div>
+    }
   `,
   styleUrl: './deck-page.component.scss'
 })
@@ -35,6 +47,8 @@ export class DeckPageComponent implements OnInit {
   public readonly cardService = inject(CardService);
   private readonly modalService = inject(GlobalModalWindowService<ICreateCard>)
   private readonly showToastService = inject(ShowToastService)
+  public readonly loaderService = inject(LoaderService)
+
 
   public deckId!: string;
 
