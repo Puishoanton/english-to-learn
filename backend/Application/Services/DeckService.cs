@@ -17,9 +17,19 @@ namespace EnglishToLearn.Application.Services
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<ReturnDeckDto?> GetDeckByIdAsync(Guid id)
+        public async Task<ReturnDeckDto?> GetDeckByIdAsync(string? userId, Guid id)
         {
-            Deck? deck = await _deckRepository.GetByIdWithCardsAsync(id);
+            if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out Guid userGuid))
+            {
+                throw new UnauthorizedException("UserId is missing in the request.");
+            }
+            User? user = await _userRepository.GetByIdAsync(userGuid);
+            if (user == null)
+            {
+                throw new NotFoundException($"User with ID {userId} not found.");
+            }
+
+            Deck? deck = await _deckRepository.GetByIdWithCardsAsync(user.Id, id);
             if (deck == null)
             {
                 throw new NotFoundException($"Deck with ID {id} not found.");
@@ -28,10 +38,20 @@ namespace EnglishToLearn.Application.Services
             return _mapper.Map<ReturnDeckDto>(deck);
         }
 
-        public async Task<PageResultDto<ReturnDeckDto>> GetAllDecks(string? search, int page = 1, int skip = 100)
+        public async Task<PageResultDto<ReturnDeckDto>> GetAllDecks(string? userId, string? search, int page = 1, int skip = 100)
         {
-            ICollection<Deck> decks = await _deckRepository.GetAllWithCardsAsync(search, page, skip);
-            int totalCount = await _deckRepository.GetCardsTotalCountAsync();
+            if (string.IsNullOrWhiteSpace(userId) || !Guid.TryParse(userId, out Guid userGuid))
+            {
+                throw new UnauthorizedException("UserId is missing in the request.");
+            }
+            User? user = await _userRepository.GetByIdAsync(userGuid);
+            if (user == null)
+            {
+                throw new NotFoundException($"User with ID {userId} not found.");
+            }
+
+            ICollection<Deck> decks = await _deckRepository.GetAllWithCardsAsync(user.Id, search, page, skip);
+            int totalCount = await _deckRepository.GetCardsTotalCountAsync(user.Id);
 
             return new PageResultDto<ReturnDeckDto>
             {
