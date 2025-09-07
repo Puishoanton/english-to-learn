@@ -39,7 +39,6 @@ export class CardService {
   }
 
   public changeProgress(cardId: string, changeValue: 'Decrease' | 'Increase', deckId: string) {
-    console.log(cardId, changeValue);
     return this.httpClient.patch<void>(`${this.apiUrl}/decks/${deckId}/cards/${cardId}/progress`, { progress: changeValue })
   }
 }
