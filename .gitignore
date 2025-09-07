@@ -24,27 +24,27 @@ out/
 
 package-lock.json
 
-/backend/.DS_Store
-/backend/Thumbs.db
-/backend/bin/
-/backend/obj/
+packages/backend/.DS_Store
+packages/backend/Thumbs.db
+packages/backend/bin/
+packages/backend/obj/
 
-/backend/*.dll
-/backend/*.exe
-/backend/*.pdb
-/backend/*.runtimeconfig.json
-/backend/*.deps.json
-/backend/*.db
-/backend/*.log
+packages/backend/*.dll
+packages/backend/*.exe
+packages/backend/*.pdb
+packages/backend/*.runtimeconfig.json
+packages/backend/*.deps.json
+packages/backend/*.db
+packages/backend/*.log
 
-/backend/*.user
-/backend/*.suo
-/backend/*.userosscache
-/backend/*.sln.docstates
-/backend/appsettings.Development.json
-/backend/appsettings.*.local.json
-/backend/appsettings.json
-/backend/.vs/
+packages/backend/*.user
+packages/backend/*.suo
+packages/backend/*.userosscache
+packages/backend/*.sln.docstates
+packages/backend/appsettings.Development.json
+packages/backend/appsettings.*.local.json
+packages/backend/appsettings.json
+packages/backend/.vs/
 
-/backend/publish/
-frontend/src/environments/environment.ts
+packages/backend/publish/
+packages/frontend/src/environments/environment.ts
