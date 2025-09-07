@@ -16,14 +16,14 @@ namespace EnglishToLearn.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDeckById(Guid id)
         {
-            ReturnDeckDto? deck = await _deckService.GetDeckByIdAsync(id);
+            ReturnDeckDto? deck = await _deckService.GetDeckByIdAsync(User.FindFirstValue(ClaimTypes.NameIdentifier), id);
             return Ok(deck);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAllDecks([FromQuery] string? search, [FromQuery] int page, [FromQuery] int skip)
         {
-            PageResultDto<ReturnDeckDto> decks = await _deckService.GetAllDecks(search, page, skip);
+            PageResultDto<ReturnDeckDto> decks = await _deckService.GetAllDecks(User.FindFirstValue(ClaimTypes.NameIdentifier), search, page, skip);
             return Ok(decks);
         }
 
