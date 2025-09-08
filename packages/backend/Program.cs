@@ -102,6 +102,12 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
+using (IServiceScope? scope = app.Services.CreateScope())
+{
+    AppDbContext db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
