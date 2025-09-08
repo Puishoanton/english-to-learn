@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: english-to-learn-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: english-to-learn
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./packages/backend
+      dockerfile: Dockerfile
+    container_name: english-to-learn-backend
+    ports:
+      - "5225:5225"
+    environment:
+      ASPNETCORE_URLS: http://+:5225
+      ConnectionStrings__DefaultConnection: Host=db;Port=5432;Database=english-to-learn;Username=postgres;Password=root
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./packages/frontend
+    container_name: english-to-learn-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./packages/frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+volumes:
+  db_data:
