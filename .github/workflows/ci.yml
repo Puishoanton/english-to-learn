@@ -1,0 +1,85 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate environment.ts
+        run: |
+          mkdir -p src/environments
+          echo "export const environment = {
+            apiBaseUrl: '${{ secrets.apiBaseUrl }}',
+            "Client_Url": '${{ secrets.Client_Url }}',
+            googleClientId: '${{ secrets.googleClientId }}'
+          };" > src/environments/environment.ts
+
+      - name: Build Angular
+        run: npm run build
+
+  backend:
+    name: Build Backend
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./packages/backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 9
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Generate appsettings.json
+        run: |
+          echo '{
+            "ConnectionStrings": {
+              "DefaultConnection": "${{ secrets.DefaultConnection }}"
+            },
+            "Logging": {
+              "LogLevel": {
+                "Default": "Information",
+                "Microsoft.AspNetCore": "Warning"
+              }
+            },
+            "Jwt": {
+              "AccessTokenSecretKey": "${{ secrets.AccessTokenSecretKey }}",
+              "RefreshTokenSecretKey": "${{ secrets.RefreshTokenSecretKey }}",
+              "Issuer": "Issuer",
+              "Audience": "Audience"
+            }
+          }' > appsettings.json    
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build backend
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Publish backend
+        run: dotnet publish -c Release -o out
