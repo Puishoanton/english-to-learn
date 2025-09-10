@@ -22,6 +22,27 @@
     }
   }
 
+  .study-card-content {
+    position: relative;
+
+    ::ng-deep .study-card-flip {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      padding: 0.2rem 0.7rem;
+      cursor: pointer;
+
+      & span {
+        font-size: 1.5rem;
+      }
+
+      &:hover {
+        background-color: $hover-color;
+        border-radius: 0.25rem;
+      }
+    }
+  }
+
   .actions {
     display: flex;
     justify-content: center;
@@ -54,4 +75,8 @@
       }
     }
   }
+}
+
+.flipped {
+  background-color: $hover-color;
 }
