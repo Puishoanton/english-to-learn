@@ -8,10 +8,11 @@ import { GlobalModalWindowService } from '../../../services/global-modal-window.
 import { FormModalComponent } from '../modals/form-modal/form-modal.component';
 import { ShowToastService } from '../../../services/show-toast.service';
 import { CardService } from '../../../services/words-to-learn/card.service';
+import { ProgressBarComponent } from "../progress-bar/progress-bar.component";
 
 @Component({
   selector: 'app-deck-card',
-  imports: [CardModule, NgClass, Button],
+  imports: [CardModule, NgClass, Button, ProgressBarComponent],
   exportAs: 'deckCard',
   template: `
     <p-card 
@@ -19,18 +20,21 @@ import { CardService } from '../../../services/words-to-learn/card.service';
       [ngClass]="{ 'translation': card.flipped }"
       (click)="toggleFlip(card)"
     >
-     @if(card.flipped) {
-       <ng-container >
-          <h2>{{ card.translation }}</h2>
-          <p>{{ card.translationContext }}</p>
-       </ng-container>
-     }@else {
-       <ng-container>
-         <h2>{{ card.word }}</h2>
-         <p>{{ card.wordContext }}</p>
-       </ng-container>
-     }
-     <p-button icon="pi pi-pencil" class="edit-btn" (onClick)="openEditCardModal(); $event.stopPropagation()" />
+      <div class="flip-card-content">
+        @if(card.flipped) {
+         <ng-container >
+            <h2>{{ card.translation }}</h2>
+            <p>{{ card.translationContext }}</p>
+         </ng-container>
+        }@else {
+         <ng-container>
+           <h2>{{ card.word }}</h2>
+           <p>{{ card.wordContext }}</p>
+         </ng-container>
+        }
+      </div>
+      <app-progress-bar [cardProgress]="card.progress"></app-progress-bar>
+      <p-button icon="pi pi-pencil" class="edit-btn" (onClick)="openEditCardModal(); $event.stopPropagation()" />
     </p-card>
 
   `,
@@ -62,7 +66,7 @@ export class DeckCardComponent {
   }
 
   private handleSave(editCardDto: IEditCard) {
-    this.cardService.editCard(this.card.id, editCardDto,this.deckId).subscribe({
+    this.cardService.editCard(this.card.id, editCardDto, this.deckId).subscribe({
       next: () => {
         this.modalService.close()
         this.showToastService.showToast('success', 'Edited');

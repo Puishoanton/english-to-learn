@@ -1,0 +1,24 @@
+@use '../../../../styles.scss' as *;
+
+.progress-bar-container {
+  position: relative;
+  border-top: $border;
+
+  .progress-bar {
+    height: 1.2rem;
+    overflow: hidden;
+    display: flex;
+  }
+
+  .labels-container {
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    .labels {
+      padding: 0 0.313rem;
+      font-size: 0.8rem;
+      color: $text-color-light;
+    }
+  }
+}
