@@ -7,6 +7,7 @@ export interface ICard {
   createdAt: Date;
   updatedAt: Date;
   deckId: string;
+  progress: number;
   // isFavorite?: boolean; 
   // tags?: string[]; 
 }

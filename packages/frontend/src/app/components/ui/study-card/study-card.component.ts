@@ -61,6 +61,8 @@ export class StudyCardComponent {
     if (this.currentCardIndex >= this.cards.length) {
       this.currentCardIndex = 0;
     }
+
+    this.flipped = false
   }
   
   public toggleFlip(): void {
