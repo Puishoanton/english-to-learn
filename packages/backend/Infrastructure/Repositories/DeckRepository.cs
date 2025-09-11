@@ -25,6 +25,7 @@ namespace EnglishToLearn.Infrastructure.Repositories
                .Where(deck => string.IsNullOrEmpty(search) || EF.Functions.ILike(deck.Name, $"%{search}%"))
                .Skip((page - 1) * skip)
                .Take(skip)
+               .OrderByDescending(deck => deck.CreatedAt)
                .ToListAsync();
         }
 

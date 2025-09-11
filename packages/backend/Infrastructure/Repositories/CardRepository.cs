@@ -12,7 +12,7 @@ namespace EnglishToLearn.Infrastructure.Repositories
 
         public async Task<ICollection<Card>> GetAllCardsByDeckIdAsync(string deckId)
         {
-            return await _context.Cards.Where(card => card.DeckId == Guid.Parse(deckId)).ToListAsync();
+            return await _context.Cards.Where(card => card.DeckId == Guid.Parse(deckId)).OrderBy(card => card.CreatedAt).ToListAsync();
         }
 
     }
