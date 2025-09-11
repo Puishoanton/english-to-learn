@@ -7,5 +7,6 @@
         public string? Translation { get; set; }
         public string? WordContext { get; set; }
         public string? TranslationContext { get; set; }
+        public int? Progress { get; set; }
     }
 }
