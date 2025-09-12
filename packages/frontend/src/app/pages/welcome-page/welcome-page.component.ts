@@ -1,12 +1,22 @@
 import { Component, inject } from '@angular/core';
 import { GoogleLoginComponent } from "../../components/ui/google-login/google-login.component";
 import { AuthService } from '../../services/auth.service';
+import { LoaderService } from '../../services/loader.service';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-welcome-page',
-  imports: [GoogleLoginComponent],
+  imports: [GoogleLoginComponent, ProgressSpinnerModule],
   template: `
-  <div class="welcome-container">
+  @if(loaderService.isLoading()) {
+    <div class="spinner">
+      <p-progressSpinner 
+        strokeWidth="4"
+        animationDuration=".7s"
+      />
+    </div>
+  }
+  @else{<div class="welcome-container">
     <div class="text">
       @if(!authService.isLoggedIn()) {
         <span>We are glad to have you here.</span>
@@ -19,10 +29,11 @@ import { AuthService } from '../../services/auth.service';
     @if(!authService.isLoggedIn()) {
       <app-google-login size="large"></app-google-login>
     }
-  </div>
+  </div>}
   `,
   styleUrl: './welcome-page.component.scss'
 })
 export class WelcomePageComponent {
   public readonly authService = inject(AuthService)
+  public readonly loaderService = inject(LoaderService)
 }
