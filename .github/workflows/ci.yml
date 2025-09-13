@@ -31,9 +31,8 @@ jobs:
         run: |
           mkdir -p src/environments
           echo "export const environment = {
-            apiBaseUrl: '${{ secrets.apiBaseUrl }}',
-            "Client_Url": '${{ secrets.Client_Url }}',
-            googleClientId: '${{ secrets.googleClientId }}'
+            apiBaseUrl: '${{ secrets.API_BASE_URL }}',
+            googleClientId: '${{ secrets.GOOGLE_CLIENT_ID }}'
           };" > src/environments/environment.ts
           cp src/environments/environment.ts src/environments/environment.prod.ts
 
@@ -73,7 +72,7 @@ jobs:
         run: |
           echo '{
             "ConnectionStrings": {
-              "DefaultConnection": "${{ secrets.DefaultConnection }}"
+              "DefaultConnection": "${{ secrets.DEFAULT_CONNECTION }}"
             },
             "Logging": {
               "LogLevel": {
@@ -81,9 +80,10 @@ jobs:
                 "Microsoft.AspNetCore": "Warning"
               }
             },
+            "Client_Url": "${{ secrets.CLIENT_URL }}",
             "Jwt": {
-              "AccessTokenSecretKey": "${{ secrets.AccessTokenSecretKey }}",
-              "RefreshTokenSecretKey": "${{ secrets.RefreshTokenSecretKey }}",
+              "AccessTokenSecretKey": "${{ secrets.ACCESS_TOKEN_SECRET_KEY }}",
+              "RefreshTokenSecretKey": "${{ secrets.REFRESH_TOKEN_SECRET_KEY }}",
               "Issuer": "Issuer",
               "Audience": "Audience"
             }
