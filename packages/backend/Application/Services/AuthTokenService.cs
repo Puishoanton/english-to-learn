@@ -87,7 +87,7 @@ namespace EnglishToLearn.Application.Services
                 HttpOnly = true,
                 Secure = true,
                 Expires = DateTime.UtcNow.AddDays(-1),
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
                 Path = "/"
             };
             response.Cookies.Append("accessToken", string.Empty, cookieOptions);
@@ -101,7 +101,7 @@ namespace EnglishToLearn.Application.Services
                 HttpOnly = true,
                 Secure = true,
                 MaxAge = maxAge,
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.None,
                 Path = "/"
             };
             response.Cookies.Append(key, value, cookieOptions);

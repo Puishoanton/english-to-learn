@@ -42,9 +42,11 @@ packages/backend/*.suo
 packages/backend/*.userosscache
 packages/backend/*.sln.docstates
 packages/backend/appsettings.Development.json
+packages/backend/appsettings.Production.json
 packages/backend/appsettings.*.local.json
 packages/backend/appsettings.json
 packages/backend/.vs/
 
 packages/backend/publish/
 packages/frontend/src/environments/environment.ts
+packages/frontend/src/environments/environment.prod.ts
