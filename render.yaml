@@ -1,0 +1,29 @@
+databases:
+  - name: english-to-learn-db
+    databaseName: english_to_learn
+    plan: free
+    user: postgres
+
+services:
+  - type: web
+    name: english-to-learn-backend
+    runtime: docker
+    plan: free
+    region: frankfurt
+    image:
+      url: docker.io/antonpuisho/english-to-learn-backend:latest
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__DefaultConnection
+        fromDatabase:
+          name: english-to-learn-db
+          property: connectionString
+
+  - type: web
+    name: english-to-learn-frontend
+    runtime: docker
+    plan: free
+    region: frankfurt
+    image:
+      url: docker.io/antonpuisho/english-to-learn-frontend:latest
